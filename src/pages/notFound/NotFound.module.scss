@@ -1,0 +1,26 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../../assets/images/notFound.png");
+  background-size: cover; /* Adjusts the image to cover the container */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  font-family: fantasy;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40vh;
+}
+
+.main {
+  font-size: 5rem;
+}
