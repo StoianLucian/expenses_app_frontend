@@ -2,22 +2,18 @@ import { useMutation } from "@tanstack/react-query";
 import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
 import Logo from "../../components/logo/Logo";
 import styles from "./Register.module.scss";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link } from "react-router-dom";
 import Error from "../../components/error/Error";
+import { Button } from "@mui/material";
+import InputField from "../../components/Inputs/InputField";
 
 export default function Register() {
   const loginMethods = useForm<RegisterData>();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-    watch,
-  } = loginMethods;
+  const { handleSubmit, reset } = loginMethods;
 
   const { mutate, error } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
@@ -46,42 +42,31 @@ export default function Register() {
                 Welcome to our expenses app <br />
                 Sign up to your account
               </h2>
-              <input
-                {...loginMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
-                type="email"
+              <InputField
+                dataName="email"
+                label="email"
+                type="text"
+                variant="outlined"
+                required={true}
               />
-              <Error errorMessage={errors.email?.message} />
-              <input
-                {...loginMethods.register("password", {
-                  required: {
-                    value: true,
-                    message: "password field is required",
-                  },
-                })}
-                className={styles.input}
-                placeholder="password"
+              <InputField
+                dataName="password"
+                label="password"
                 type="password"
+                variant="outlined"
+                required={true}
               />
-              <Error errorMessage={errors.password?.message} />
-              <input
-                {...loginMethods.register("confirmPassword", {
-                  required: {
-                    value: true,
-                    message: "confirm password field is required",
-                  },
-                  validate: (value) =>
-                    watch("password") === value || "passwords do not match",
-                })}
-                className={styles.input}
-                placeholder="confirm password"
+              <InputField
+                dataName="confirmPassword"
+                label="confirm password"
                 type="password"
+                variant="outlined"
+                required={true}
+                watchedInput="password"
               />
-              <Error errorMessage={errors.confirmPassword?.message} />
-              <button className={styles.button}>Sign up</button>
+              <Button variant="contained" type="submit">
+                Sign up
+              </Button>
               <div className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
               </div>
