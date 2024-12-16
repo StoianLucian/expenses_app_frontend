@@ -7,6 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link } from "react-router-dom";
+import Error from "../../components/error/Error";
 
 export default function Register() {
   const loginMethods = useForm<RegisterData>();
@@ -53,9 +54,7 @@ export default function Register() {
                 placeholder="email address"
                 type="email"
               />
-              {errors.email && (
-                <span className={styles.error}>{errors.email.message}</span>
-              )}
+              <Error errorMessage={errors.email?.message} />
               <input
                 {...loginMethods.register("password", {
                   required: {
@@ -67,9 +66,7 @@ export default function Register() {
                 placeholder="password"
                 type="password"
               />
-              {errors.password && (
-                <span className={styles.error}>{errors.password.message}</span>
-              )}
+              <Error errorMessage={errors.password?.message} />
               <input
                 {...loginMethods.register("confirmPassword", {
                   required: {
@@ -83,16 +80,12 @@ export default function Register() {
                 placeholder="confirm password"
                 type="password"
               />
-              {errors.confirmPassword && (
-                <span className={styles.error}>
-                  {errors.confirmPassword.message}
-                </span>
-              )}
+              <Error errorMessage={errors.confirmPassword?.message} />
               <button className={styles.button}>Sign up</button>
               <div className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
               </div>
-              {error && <span className={styles.error}>{error.message}</span>}
+              <Error errorMessage={error?.message} />
             </div>
           </form>
         </FormProvider>
