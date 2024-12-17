@@ -71,11 +71,11 @@ export const ToastContextProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const UseToastcontext = () => {
+export const UseToastContext = () => {
   const context = useContext(ToastContext);
 
   if (context === undefined) {
-    throw new Error("UseToastcontext must be used inside ToastContextProvider");
+    throw new Error("UseToastContext must be used inside ToastContextProvider");
   }
 
   return context;

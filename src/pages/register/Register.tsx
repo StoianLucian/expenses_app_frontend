@@ -9,11 +9,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Error from "../../components/error/Error";
 import { Button } from "@mui/material";
 import InputField from "../../components/Inputs/InputField";
-import { UseToastcontext } from "../../context/toastContext.tsx/ToastContext";
+import { UseToastContext } from "../../context/toastContext.tsx/ToastContext";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { toastHandler } = UseToastcontext();
+  const { toastHandler } = UseToastContext();
   const loginMethods = useForm<RegisterData>();
 
   const { handleSubmit, reset } = loginMethods;
