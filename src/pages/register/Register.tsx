@@ -7,7 +7,7 @@ import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import InputField from "../../components/Inputs/InputField";
+import InputField, { VARIANTS } from "../../components/Inputs/InputField";
 import {
   SEVERITY,
   UseToastContext,
@@ -53,21 +53,21 @@ export default function Register() {
                 dataName="email"
                 label="email"
                 type="text"
-                variant="outlined"
+                variant={VARIANTS.OUTLINED}
                 required={true}
               />
               <InputField
                 dataName="password"
                 label="password"
                 type="password"
-                variant="outlined"
+                variant={VARIANTS.OUTLINED}
                 required={true}
               />
               <InputField
                 dataName="confirmPassword"
                 label="confirm password"
                 type="password"
-                variant="outlined"
+                variant={VARIANTS.OUTLINED}
                 required={true}
                 watchedInput="password"
               />

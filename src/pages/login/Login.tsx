@@ -9,7 +9,7 @@ import { UseAuthContext } from "../../context/authContext/AuthContext";
 import { LoginData } from "../../types/auth";
 import { Link } from "react-router-dom";
 import Error from "../../components/error/Error";
-import InputField from "../../components/Inputs/InputField";
+import InputField, { VARIANTS } from "../../components/Inputs/InputField";
 import { Button } from "@mui/material";
 import {
   SEVERITY,
@@ -23,10 +23,7 @@ export default function Login() {
 
   const loginMethods = useForm<LoginData>();
 
-  const {
-    handleSubmit,
-    reset,
-  } = loginMethods;
+  const { handleSubmit, reset } = loginMethods;
 
   const { mutate, error } = useMutation({
     mutationFn: (data: LoginData) => login(data),
@@ -63,14 +60,14 @@ export default function Login() {
               <InputField
                 label="email"
                 type="email"
-                variant="outlined"
+                variant={VARIANTS.OUTLINED}
                 dataName="email"
                 required
               />
               <InputField
                 label="password"
                 type="password"
-                variant="outlined"
+                variant={VARIANTS.OUTLINED}
                 dataName="password"
                 required
               />

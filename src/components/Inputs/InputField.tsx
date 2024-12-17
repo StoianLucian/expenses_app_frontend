@@ -2,7 +2,7 @@ import { Box, TextField } from "@mui/material";
 import Error from "../error/Error";
 import { useFormContext } from "react-hook-form";
 
-enum VARIANTS {
+export enum VARIANTS {
   FILLED = "filled",
   OUTLINED = "outlined",
   STANDARD = "standard",
