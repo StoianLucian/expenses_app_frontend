@@ -12,9 +12,9 @@ import Error from "../../components/error/Error";
 import InputField, { VARIANTS } from "../../components/Inputs/InputField";
 import { Button } from "@mui/material";
 import {
-  SEVERITY,
+  TOAST_SEVERITY,
   UseToastContext,
-  VARIANT,
+  TOAST_VARIANT,
 } from "../../context/toastContext.tsx/ToastContext";
 
 export default function Login() {
@@ -29,7 +29,7 @@ export default function Login() {
     mutationFn: (data: LoginData) => login(data),
     onSuccess: (success) => {
       console.log(success);
-      toastHandler(VARIANT.FILLED, SEVERITY.SUCCESS, success.message);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.SUCCESS, success.message);
       setIsLoggedIn(success.user);
     },
     onError: async (fail) => {

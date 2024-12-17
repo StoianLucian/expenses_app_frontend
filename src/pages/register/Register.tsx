@@ -9,9 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import InputField, { VARIANTS } from "../../components/Inputs/InputField";
 import {
-  SEVERITY,
+  TOAST_SEVERITY,
   UseToastContext,
-  VARIANT,
+  TOAST_VARIANT,
 } from "../../context/toastContext.tsx/ToastContext";
 
 export default function Register() {
@@ -24,11 +24,11 @@ export default function Register() {
   const { mutate } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
     onSuccess: (success) => {
-      toastHandler(VARIANT.FILLED, SEVERITY.SUCCESS, success.data.message);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.SUCCESS, success.data.message);
       navigate("/login");
     },
     onError: async (fail) => {
-      toastHandler(VARIANT.FILLED, SEVERITY.ERROR, fail.message);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);
       reset();
     },
   });

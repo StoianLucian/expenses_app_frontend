@@ -2,21 +2,21 @@ import { Alert } from "@mui/material";
 import { SnackbarCloseReason, Snackbar } from "@mui/material";
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-export enum VARIANT {
+export enum TOAST_VARIANT {
   FILLED = "filled",
   OUTLINED = "outlined",
   STANDARD = "standard",
 }
 
-export enum SEVERITY {
+export enum TOAST_SEVERITY {
   ERROR = "error",
   INFO = "info",
   SUCCESS = "success",
   WARNING = "warning",
 }
 
-type VariantType = VARIANT | undefined;
-type SeverityType = SEVERITY | undefined;
+type VariantType = TOAST_VARIANT | undefined;
+type SeverityType = TOAST_SEVERITY | undefined;
 
 type ToastContextType = {
   toastHandler: (
