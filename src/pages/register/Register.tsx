@@ -28,7 +28,6 @@ export default function Register() {
       navigate("/login");
     },
     onError: async (fail) => {
-      console.log(fail);
       toastHandler(VARIANT.FILLED, SEVERITY.ERROR, fail.message);
       reset();
     },

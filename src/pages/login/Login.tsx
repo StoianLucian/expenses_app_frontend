@@ -9,14 +9,21 @@ import { UseAuthContext } from "../../context/authContext/AuthContext";
 import { LoginData } from "../../types/auth";
 import { Link } from "react-router-dom";
 import Error from "../../components/error/Error";
+import InputField from "../../components/Inputs/InputField";
+import { Button } from "@mui/material";
+import {
+  SEVERITY,
+  UseToastContext,
+  VARIANT,
+} from "../../context/toastContext.tsx/ToastContext";
 
 export default function Login() {
   const { setIsLoggedIn } = UseAuthContext();
+  const { toastHandler } = UseToastContext();
 
   const loginMethods = useForm<LoginData>();
 
   const {
-    formState: { errors },
     handleSubmit,
     reset,
   } = loginMethods;
@@ -24,7 +31,9 @@ export default function Login() {
   const { mutate, error } = useMutation({
     mutationFn: (data: LoginData) => login(data),
     onSuccess: (success) => {
-      setIsLoggedIn(success);
+      console.log(success);
+      toastHandler(VARIANT.FILLED, SEVERITY.SUCCESS, success.message);
+      setIsLoggedIn(success.user);
     },
     onError: async (fail) => {
       reset();
@@ -51,28 +60,23 @@ export default function Login() {
                 Welcome to our expenses app <br />
                 Sign in to your account
               </h2>
-              <input
-                {...loginMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
+              <InputField
+                label="email"
                 type="email"
+                variant="outlined"
+                dataName="email"
+                required
               />
-              <Error errorMessage={errors.email?.message} />
-              <input
-                {...loginMethods.register("password", {
-                  required: {
-                    value: true,
-                    message: "password field is required",
-                  },
-                })}
-                className={styles.input}
-                placeholder="password"
+              <InputField
+                label="password"
                 type="password"
+                variant="outlined"
+                dataName="password"
+                required
               />
-              <Error errorMessage={errors.password?.message} />
-              <button className={styles.button}>Login</button>
+              <Button variant="contained" type="submit">
+                Login
+              </Button>
               <div className={styles.link}>
                 <Link to={"/register"}>No account? Sign up here</Link>
               </div>
