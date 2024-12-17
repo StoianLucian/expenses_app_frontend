@@ -5,12 +5,15 @@ import styles from "./Register.module.scss";
 import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Error from "../../components/error/Error";
 import { Button } from "@mui/material";
 import InputField from "../../components/Inputs/InputField";
+import { UseToastcontext } from "../../context/toastContext.tsx/ToastContext";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const { toastHandler } = UseToastcontext();
   const loginMethods = useForm<RegisterData>();
 
   const { handleSubmit, reset } = loginMethods;
@@ -18,7 +21,12 @@ export default function Register() {
   const { mutate, error } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
     onSuccess: (success) => {
-      console.log(success);
+      toastHandler(
+        "filled",
+        "success",
+        "Sucessfully registered, and email was sent to activate your account"
+      );
+      navigate("/login");
     },
     onError: async (fail) => {
       console.log(fail);
