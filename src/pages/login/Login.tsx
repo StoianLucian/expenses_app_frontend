@@ -9,7 +9,7 @@ import { UseAuthContext } from "../../context/authContext/AuthContext";
 import { LoginData } from "../../types/auth";
 import { Link } from "react-router-dom";
 import Error from "../../components/error/Error";
-import InputField, { VARIANTS } from "../../components/Inputs/InputField";
+import InputField, { INPUT_FIELD_VARIANTS } from "../../components/Inputs/InputField";
 import { Button } from "@mui/material";
 import {
   TOAST_SEVERITY,
@@ -60,14 +60,14 @@ export default function Login() {
               <InputField
                 label="email"
                 type="email"
-                variant={VARIANTS.OUTLINED}
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 dataName="email"
                 required
               />
               <InputField
                 label="password"
                 type="password"
-                variant={VARIANTS.OUTLINED}
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 dataName="password"
                 required
               />

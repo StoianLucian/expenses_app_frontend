@@ -7,7 +7,9 @@ import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import InputField, { VARIANTS } from "../../components/Inputs/InputField";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/Inputs/InputField";
 import {
   TOAST_SEVERITY,
   UseToastContext,
@@ -24,7 +26,11 @@ export default function Register() {
   const { mutate } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
     onSuccess: (success) => {
-      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.SUCCESS, success.data.message);
+      toastHandler(
+        TOAST_VARIANT.FILLED,
+        TOAST_SEVERITY.SUCCESS,
+        success.data.message
+      );
       navigate("/login");
     },
     onError: async (fail) => {
@@ -53,21 +59,21 @@ export default function Register() {
                 dataName="email"
                 label="email"
                 type="text"
-                variant={VARIANTS.OUTLINED}
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required={true}
               />
               <InputField
                 dataName="password"
                 label="password"
                 type="password"
-                variant={VARIANTS.OUTLINED}
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required={true}
               />
               <InputField
                 dataName="confirmPassword"
                 label="confirm password"
                 type="password"
-                variant={VARIANTS.OUTLINED}
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required={true}
                 watchedInput="password"
               />

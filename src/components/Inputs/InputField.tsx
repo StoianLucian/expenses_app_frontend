@@ -2,7 +2,7 @@ import { Box, TextField } from "@mui/material";
 import Error from "../error/Error";
 import { useFormContext } from "react-hook-form";
 
-export enum VARIANTS {
+export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
   OUTLINED = "outlined",
   STANDARD = "standard",
@@ -11,7 +11,7 @@ export enum VARIANTS {
 type InputProps = {
   label: string;
   type: string;
-  variant: VARIANTS;
+  variant: INPUT_FIELD_VARIANTS;
   required?: boolean;
   dataName: string;
   watchedInput?: string | undefined;
