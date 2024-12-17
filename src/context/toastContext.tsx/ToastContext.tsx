@@ -2,8 +2,21 @@ import { Alert } from "@mui/material";
 import { SnackbarCloseReason, Snackbar } from "@mui/material";
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-type VariantType = "filled" | "outlined" | "standard" | undefined;
-type SeverityType = "error" | "info" | "success" | "warning" | undefined;
+export enum VARIANT {
+  FILLED = "filled",
+  OUTLINED = "outlined",
+  STANDARD = "standard",
+}
+
+export enum SEVERITY {
+  ERROR = "error",
+  INFO = "info",
+  SUCCESS = "success",
+  WARNING = "warning",
+}
+
+type VariantType = VARIANT | undefined;
+type SeverityType = SEVERITY | undefined;
 
 type ToastContextType = {
   toastHandler: (
@@ -44,7 +57,7 @@ export const ToastContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleClose = (
-    event?: React.SyntheticEvent | Event, // typescript complains if missing
+    _event?: React.SyntheticEvent | Event, // typescript complains if missing
     reason?: SnackbarCloseReason
   ) => {
     if (reason === "clickaway") {

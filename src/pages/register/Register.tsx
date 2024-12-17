@@ -6,10 +6,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
-import Error from "../../components/error/Error";
 import { Button } from "@mui/material";
 import InputField from "../../components/Inputs/InputField";
-import { UseToastContext } from "../../context/toastContext.tsx/ToastContext";
+import {
+  SEVERITY,
+  UseToastContext,
+  VARIANT,
+} from "../../context/toastContext.tsx/ToastContext";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -18,18 +21,15 @@ export default function Register() {
 
   const { handleSubmit, reset } = loginMethods;
 
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
     onSuccess: (success) => {
-      toastHandler(
-        "filled",
-        "success",
-        "Sucessfully registered, and email was sent to activate your account"
-      );
+      toastHandler(VARIANT.FILLED, SEVERITY.SUCCESS, success.data.message);
       navigate("/login");
     },
     onError: async (fail) => {
       console.log(fail);
+      toastHandler(VARIANT.FILLED, SEVERITY.ERROR, fail.message);
       reset();
     },
   });
@@ -78,7 +78,6 @@ export default function Register() {
               <div className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
               </div>
-              <Error errorMessage={error?.message} />
             </div>
           </form>
         </FormProvider>
