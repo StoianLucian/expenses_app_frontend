@@ -11,15 +11,7 @@ import { Link } from "react-router-dom";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/Inputs/InputField";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  ListItem,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import {
   TOAST_SEVERITY,
   UseToastContext,
