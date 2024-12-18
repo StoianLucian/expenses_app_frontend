@@ -33,11 +33,15 @@ export default function ForgotPasswordForm() {
 
   const { mutate } = useMutation({
     mutationFn: (data: any) => resetForgotPassword(data, token),
-    onSuccess: (success) => {
-      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.SUCCESS, success.data);
+    onSuccess: (_success) => {
+      toastHandler(
+        TOAST_VARIANT.FILLED,
+        TOAST_SEVERITY.SUCCESS,
+        "Password update sucessfully"
+      );
     },
-    onError: async (fail) => {
-      console.log(fail);
+    onError: async (_fail) => {
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, "UNAUTHORIZED");
     },
   });
 
