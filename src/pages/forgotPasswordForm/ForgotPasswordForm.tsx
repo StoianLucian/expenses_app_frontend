@@ -5,8 +5,16 @@ import styles from "./ForgotPassword.module.scss";
 
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import Error from "../../components/error/Error";
 import { resetForgotPassword } from "../../api/auth/users";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/Inputs/InputField";
+import { Button, Typography } from "@mui/material";
+import {
+  TOAST_SEVERITY,
+  TOAST_VARIANT,
+  UseToastContext,
+} from "../../context/toastContext.tsx/ToastContext";
 
 type FormData = {
   email: string;
@@ -17,19 +25,16 @@ type FormData = {
 
 export default function ForgotPasswordForm() {
   const { token } = useParams();
+  const { toastHandler } = UseToastContext();
 
   const formMethods = useForm<FormData>();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = formMethods;
+  const { handleSubmit } = formMethods;
 
-  const { mutate, error } = useMutation({
-    mutationFn: (data: any) => resetForgotPassword(data),
+  const { mutate } = useMutation({
+    mutationFn: (data: any) => resetForgotPassword(data, token),
     onSuccess: (success) => {
-      console.log(success);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.SUCCESS, success.data);
     },
     onError: async (fail) => {
       console.log(fail);
@@ -37,11 +42,7 @@ export default function ForgotPasswordForm() {
   });
 
   function submitHandler(data: FormData) {
-    const newData = { ...data, token: token };
-
-    console.log(newData);
-
-    // mutate(data);
+    mutate(data);
   }
 
   return (
@@ -52,46 +53,34 @@ export default function ForgotPasswordForm() {
             <Logo />
             <div className={styles.inputsContainer}>
               <h2 className={styles.title}>Welcome to our expenses app</h2>
-              <input
-                {...formMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
+              <InputField
+                label="email"
                 type="email"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                dataName="email"
+                required
               />
-              <Error errorMessage={errors.email?.message} />
-              <input
-                {...formMethods.register("password", {
-                  required: {
-                    value: true,
-                    message: "password field is required",
-                  },
-                })}
-                className={styles.input}
-                placeholder="password"
+              <InputField
+                label="password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                dataName="password"
+                required
               />
-              <Error errorMessage={errors.password?.message} />
-              <input
-                {...formMethods.register("confirmPassword", {
-                  required: {
-                    value: true,
-                    message: "confirm password field is required",
-                  },
-                  validate: (value) =>
-                    watch("password") === value || "passwords do not match",
-                })}
-                className={styles.input}
-                placeholder="confirm password"
+              <InputField
+                label="confirm password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                dataName="confirmPassword"
+                watchedInput="password"
+                required
               />
-              <Error errorMessage={errors.confirmPassword?.message} />
-              <button className={styles.button}>Send email</button>
-              <Error errorMessage={error?.message} />
-              <div className={styles.link}>
+              <Button variant="contained" type="submit">
+                submit
+              </Button>
+              <Typography className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
-              </div>
+              </Typography>
             </div>
           </form>
         </FormProvider>

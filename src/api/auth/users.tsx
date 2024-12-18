@@ -26,10 +26,10 @@ export async function sendForgotPasswordEmail(data: ForgotPasswordData) {
   }
 }
 
-export async function resetForgotPassword(data: any) {
+export async function resetForgotPassword(data: any, token: string | undefined) {
   try {
     const response = await axios.post(
-      `${BASE_URL}/users/forgot-password/${data.token}`,
+      `${BASE_URL}/users/forgot-password/${token}`,
       data
     );
 

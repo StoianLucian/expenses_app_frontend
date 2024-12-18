@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/Inputs/InputField";
@@ -60,29 +60,29 @@ export default function Register() {
                 label="email"
                 type="text"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
-                required={true}
+                required
               />
               <InputField
                 dataName="password"
                 label="password"
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
-                required={true}
+                required
               />
               <InputField
                 dataName="confirmPassword"
                 label="confirm password"
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
-                required={true}
+                required
                 watchedInput="password"
               />
               <Button variant="contained" type="submit">
                 Sign up
               </Button>
-              <div className={styles.link}>
+              <Typography className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
-              </div>
+              </Typography>
             </div>
           </form>
         </FormProvider>

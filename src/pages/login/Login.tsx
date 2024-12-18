@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/Inputs/InputField";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import {
   TOAST_SEVERITY,
   UseToastContext,
@@ -54,10 +54,10 @@ export default function Login() {
           <form onSubmit={handleSubmit(submitHandler)}>
             <Logo />
             <div className={styles.inputsContainer}>
-              <h2 className={styles.title}>
+              <Typography className={styles.title}>
                 Welcome to our expenses app <br />
                 Sign in to your account
-              </h2>
+              </Typography>
               <InputField
                 label="email"
                 type="email"
@@ -75,14 +75,14 @@ export default function Login() {
               <Button variant="contained" type="submit">
                 Login
               </Button>
-              <div className={styles.link}>
+              <Typography className={styles.link}>
                 <Link to={"/register"}>No account? Sign up here</Link>
-              </div>
-              <div className={styles.link}>
+              </Typography>
+              <Typography className={styles.link}>
                 <Link to={"/forgot-password"}>
                   Forgot password? Click here to reset
                 </Link>
-              </div>
+              </Typography>
             </div>
           </form>
         </FormProvider>
