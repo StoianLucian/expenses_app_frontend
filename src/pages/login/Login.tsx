@@ -8,9 +8,18 @@ import { login } from "../../api/auth/auth";
 import { UseAuthContext } from "../../context/authContext/AuthContext";
 import { LoginData } from "../../types/auth";
 import { Link } from "react-router-dom";
-import Error from "../../components/error/Error";
-import InputField, { INPUT_FIELD_VARIANTS } from "../../components/Inputs/InputField";
-import { Button } from "@mui/material";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/Inputs/InputField";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  ListItem,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import {
   TOAST_SEVERITY,
   UseToastContext,
@@ -25,16 +34,20 @@ export default function Login() {
 
   const { handleSubmit, reset } = loginMethods;
 
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data: LoginData) => login(data),
     onSuccess: (success) => {
       console.log(success);
-      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.SUCCESS, success.message);
+      toastHandler(
+        TOAST_VARIANT.FILLED,
+        TOAST_SEVERITY.SUCCESS,
+        success.message
+      );
       setIsLoggedIn(success.user);
     },
     onError: async (fail) => {
       reset();
-      console.error("Mutation error:", fail);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);
     },
   });
 
@@ -42,12 +55,8 @@ export default function Login() {
     mutate(data);
   }
 
-  if (error) {
-    console.log(error);
-  }
-
   return (
-    <section className={styles.container}>
+    <Box sx={{ display: "flex" }}>
       <div className={styles.loginContainer}>
         <FormProvider {...loginMethods}>
           <form onSubmit={handleSubmit(submitHandler)}>
@@ -82,12 +91,11 @@ export default function Login() {
                   Forgot password? Click here to reset
                 </Link>
               </div>
-              <Error errorMessage={error?.message} />
             </div>
           </form>
         </FormProvider>
       </div>
       <BackgroundLogo />
-    </section>
+    </Box>
   );
 }
