@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
 import Logo from "../../components/logo/Logo";
 import styles from "./ForgotPassword.module.scss";
@@ -6,7 +6,15 @@ import styles from "./ForgotPassword.module.scss";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { sendForgotPasswordEmail } from "../../api/auth/users";
-import Error from "../../components/error/Error";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/Inputs/InputField";
+import { Button, Typography } from "@mui/material";
+import {
+  TOAST_SEVERITY,
+  TOAST_VARIANT,
+  UseToastContext,
+} from "../../context/toastContext.tsx/ToastContext";
 
 type FormData = {
   email: string;
@@ -14,19 +22,24 @@ type FormData = {
 
 export default function ForgotPassword() {
   const formMethods = useForm<FormData>();
+  const { toastHandler } = UseToastContext();
+  const navigate = useNavigate();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-  } = formMethods;
+  const { handleSubmit, reset } = formMethods;
 
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data: any) => sendForgotPasswordEmail(data),
     onSuccess: (success) => {
-      console.log(success);
+      toastHandler(
+        TOAST_VARIANT.FILLED,
+        TOAST_SEVERITY.SUCCESS,
+        success.message
+      );
+      navigate("/login");
     },
-    onError: async (fail) => {
-      console.log(fail);
+    onError: (fail) => {
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);
+      reset();
     },
   });
 
@@ -42,20 +55,19 @@ export default function ForgotPassword() {
             <Logo />
             <div className={styles.inputsContainer}>
               <h2 className={styles.title}>Welcome to our expenses app</h2>
-              <input
-                {...formMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
+              <InputField
+                label="email"
                 type="email"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                dataName="email"
+                required
               />
-              <Error errorMessage={errors.email?.message} />
-              <button className={styles.button}>Send email</button>
-              <Error errorMessage={error?.message} />
-              <div className={styles.link}>
+              <Button variant="contained" type="submit">
+                Send email
+              </Button>
+              <Typography className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
-              </div>
+              </Typography>
             </div>
           </form>
         </FormProvider>

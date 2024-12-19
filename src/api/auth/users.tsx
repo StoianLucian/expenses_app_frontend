@@ -3,7 +3,7 @@ import { RegisterData } from "../../types/register";
 import { BASE_URL } from "./commons";
 import { ForgotPasswordData } from "../../types/auth";
 
-async function register(data: RegisterData) {
+export async function register(data: RegisterData) {
   try {
     const response = await axios.post(`${BASE_URL}/users`, data);
 
@@ -19,24 +19,24 @@ export async function sendForgotPasswordEmail(data: ForgotPasswordData) {
       `${BASE_URL}/users/forgot-password`,
       data
     );
-
-    return response;
+    return response.data;
   } catch (error: any) {
     throw error.response.data;
   }
 }
 
-export async function resetForgotPassword(data: any, token: string | undefined) {
+export async function resetForgotPassword(
+  data: any,
+  token: string | undefined
+) {
   try {
     const response = await axios.post(
       `${BASE_URL}/users/forgot-password/${token}`,
       data
     );
 
-    return response;
+    return response.data;
   } catch (error) {
     throw error;
   }
 }
-
-export { register };
