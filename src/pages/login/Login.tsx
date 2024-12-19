@@ -8,27 +8,44 @@ import { login } from "../../api/auth/auth";
 import { UseAuthContext } from "../../context/authContext/AuthContext";
 import { LoginData } from "../../types/auth";
 import { Link } from "react-router-dom";
-import Error from "../../components/error/Error";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/Inputs/InputField";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  TOAST_SEVERITY,
+  UseToastContext,
+  TOAST_VARIANT,
+} from "../../context/toastContext.tsx/ToastContext";
 
 export default function Login() {
-  const { setIsLoggedIn } = UseAuthContext();
+  const { authenticateUser } = UseAuthContext();
+  const { toastHandler } = UseToastContext();
 
   const loginMethods = useForm<LoginData>();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = loginMethods;
+  const { handleSubmit, reset } = loginMethods;
 
-  const { mutate, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: LoginData) => login(data),
     onSuccess: (success) => {
-      setIsLoggedIn(success);
+      console.log(success);
+      toastHandler(
+        TOAST_VARIANT.FILLED,
+        TOAST_SEVERITY.SUCCESS,
+        success.message
+      );
+      authenticateUser(success.user);
     },
     onError: async (fail) => {
       reset();
-      console.error("Mutation error:", fail);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);
     },
   });
 
@@ -36,57 +53,53 @@ export default function Login() {
     mutate(data);
   }
 
-  if (error) {
-    console.log(error);
-  }
-
   return (
-    <section className={styles.container}>
+    <Box sx={{ display: "flex" }}>
       <div className={styles.loginContainer}>
         <FormProvider {...loginMethods}>
           <form onSubmit={handleSubmit(submitHandler)}>
             <Logo />
             <div className={styles.inputsContainer}>
-              <h2 className={styles.title}>
+              <Typography className={styles.title}>
                 Welcome to our expenses app <br />
                 Sign in to your account
-              </h2>
-              <input
-                {...loginMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
+              </Typography>
+              <InputField
+                label="email"
                 type="email"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                dataName="email"
+                required
               />
-              <Error errorMessage={errors.email?.message} />
-              <input
-                {...loginMethods.register("password", {
-                  required: {
-                    value: true,
-                    message: "password field is required",
-                  },
-                })}
-                className={styles.input}
-                placeholder="password"
+              <InputField
+                label="password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                dataName="password"
+                required
               />
-              <Error errorMessage={errors.password?.message} />
-              <button className={styles.button}>Login</button>
-              <div className={styles.link}>
+              <Button variant="contained" type="submit">
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress size="30px" color="inherit" />
+                  ) : (
+                    "Login"
+                  )}
+                </Stack>
+              </Button>
+              <Typography className={styles.link}>
                 <Link to={"/register"}>No account? Sign up here</Link>
-              </div>
-              <div className={styles.link}>
+              </Typography>
+              <Typography className={styles.link}>
                 <Link to={"/forgot-password"}>
                   Forgot password? Click here to reset
                 </Link>
-              </div>
-              <Error errorMessage={error?.message} />
+              </Typography>
             </div>
           </form>
         </FormProvider>
       </div>
       <BackgroundLogo />
-    </section>
+    </Box>
   );
 }
