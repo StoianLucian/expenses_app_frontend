@@ -19,7 +19,7 @@ import {
 } from "../../context/toastContext.tsx/ToastContext";
 
 export default function Login() {
-  const { setIsLoggedIn } = UseAuthContext();
+  const { authenticateUser } = UseAuthContext();
   const { toastHandler } = UseToastContext();
 
   const loginMethods = useForm<LoginData>();
@@ -35,7 +35,7 @@ export default function Login() {
         TOAST_SEVERITY.SUCCESS,
         success.message
       );
-      setIsLoggedIn(success.user);
+      authenticateUser(success.user);
     },
     onError: async (fail) => {
       reset();
