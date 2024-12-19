@@ -11,7 +11,13 @@ import { Link } from "react-router-dom";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/Inputs/InputField";
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import {
   TOAST_SEVERITY,
   UseToastContext,
@@ -26,7 +32,7 @@ export default function Login() {
 
   const { handleSubmit, reset } = loginMethods;
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: LoginData) => login(data),
     onSuccess: (success) => {
       console.log(success);
@@ -73,7 +79,13 @@ export default function Login() {
                 required
               />
               <Button variant="contained" type="submit">
-                Login
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress size="30px" color="inherit" />
+                  ) : (
+                    "Login"
+                  )}
+                </Stack>
               </Button>
               <Typography className={styles.link}>
                 <Link to={"/register"}>No account? Sign up here</Link>

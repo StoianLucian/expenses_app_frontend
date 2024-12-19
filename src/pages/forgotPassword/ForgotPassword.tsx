@@ -9,7 +9,7 @@ import { sendForgotPasswordEmail } from "../../api/auth/users";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/Inputs/InputField";
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Stack, Typography } from "@mui/material";
 import {
   TOAST_SEVERITY,
   TOAST_VARIANT,
@@ -27,7 +27,7 @@ export default function ForgotPassword() {
 
   const { handleSubmit, reset } = formMethods;
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => sendForgotPasswordEmail(data),
     onSuccess: (success) => {
       toastHandler(
@@ -63,7 +63,13 @@ export default function ForgotPassword() {
                 required
               />
               <Button variant="contained" type="submit">
-                Send email
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress size="30px" color="inherit" />
+                  ) : (
+                    "Send email"
+                  )}
+                </Stack>
               </Button>
               <Typography className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>

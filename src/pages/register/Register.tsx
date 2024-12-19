@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Stack, Typography } from "@mui/material";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/Inputs/InputField";
@@ -23,7 +23,7 @@ export default function Register() {
 
   const { handleSubmit, reset } = loginMethods;
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
     onSuccess: (success) => {
       toastHandler(
@@ -78,7 +78,13 @@ export default function Register() {
                 watchedInput="password"
               />
               <Button variant="contained" type="submit">
-                Sign up
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress size="30px" color="inherit" />
+                  ) : (
+                    "Sign up"
+                  )}
+                </Stack>
               </Button>
               <Typography className={styles.link}>
                 <Link to={"/login"}>Already have an account?</Link>
