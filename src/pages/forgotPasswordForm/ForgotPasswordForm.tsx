@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
 import Logo from "../../components/logo/Logo";
 import styles from "./ForgotPassword.module.scss";
@@ -15,6 +15,7 @@ import {
   TOAST_VARIANT,
   UseToastContext,
 } from "../../context/toastContext.tsx/ToastContext";
+import { ROUTES } from "../../Routes/routes";
 
 type FormData = {
   email: string;
@@ -26,6 +27,7 @@ type FormData = {
 export default function ForgotPasswordForm() {
   const { token } = useParams();
   const { toastHandler } = UseToastContext();
+  const navigate = useNavigate();
 
   const formMethods = useForm<FormData>();
 
@@ -39,8 +41,9 @@ export default function ForgotPasswordForm() {
         TOAST_SEVERITY.SUCCESS,
         success.message
       );
+      navigate(ROUTES.LOGIN);
     },
-    onError: async (fail) => {
+    onError: async (_fail) => {
       toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, "UNAUTHORIZED");
     },
   });

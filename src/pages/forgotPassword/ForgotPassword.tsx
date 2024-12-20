@@ -15,6 +15,7 @@ import {
   TOAST_VARIANT,
   UseToastContext,
 } from "../../context/toastContext.tsx/ToastContext";
+import { ROUTES } from "../../Routes/routes";
 
 type FormData = {
   email: string;
@@ -35,7 +36,7 @@ export default function ForgotPassword() {
         TOAST_SEVERITY.SUCCESS,
         success.message
       );
-      navigate("/login");
+      navigate(ROUTES.LOGIN);
     },
     onError: (fail) => {
       toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);

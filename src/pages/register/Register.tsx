@@ -15,6 +15,7 @@ import {
   UseToastContext,
   TOAST_VARIANT,
 } from "../../context/toastContext.tsx/ToastContext";
+import { ROUTES } from "../../Routes/routes";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function Register() {
         TOAST_SEVERITY.SUCCESS,
         success.data.message
       );
-      navigate("/login");
+      navigate(ROUTES.LOGIN);
     },
     onError: async (fail) => {
       toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);
@@ -87,7 +88,7 @@ export default function Register() {
                 </Stack>
               </Button>
               <Typography className={styles.link}>
-                <Link to={"/login"}>Already have an account?</Link>
+                <Link to={ROUTES.LOGIN}>Already have an account?</Link>
               </Typography>
             </div>
           </form>
