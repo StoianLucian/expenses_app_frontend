@@ -2,30 +2,40 @@ import { useMutation } from "@tanstack/react-query";
 import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
 import Logo from "../../components/logo/Logo";
 import styles from "./Register.module.scss";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
-import { Link } from "react-router-dom";
-import Error from "../../components/error/Error";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, CircularProgress, Stack, Typography } from "@mui/material";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/Inputs/InputField";
+import {
+  TOAST_SEVERITY,
+  UseToastContext,
+  TOAST_VARIANT,
+} from "../../context/toastContext.tsx/ToastContext";
+import { ROUTES } from "../../Routes/routes";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const { toastHandler } = UseToastContext();
   const loginMethods = useForm<RegisterData>();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-    watch,
-  } = loginMethods;
+  const { handleSubmit, reset } = loginMethods;
 
-  const { mutate, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
     onSuccess: (success) => {
-      console.log(success);
+      toastHandler(
+        TOAST_VARIANT.FILLED,
+        TOAST_SEVERITY.SUCCESS,
+        success.data.message
+      );
+      navigate(ROUTES.LOGIN);
     },
     onError: async (fail) => {
-      console.log(fail);
+      toastHandler(TOAST_VARIANT.FILLED, TOAST_SEVERITY.ERROR, fail.message);
       reset();
     },
   });
@@ -46,46 +56,40 @@ export default function Register() {
                 Welcome to our expenses app <br />
                 Sign up to your account
               </h2>
-              <input
-                {...loginMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
-                type="email"
+              <InputField
+                dataName="email"
+                label="email"
+                type="text"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                required
               />
-              <Error errorMessage={errors.email?.message} />
-              <input
-                {...loginMethods.register("password", {
-                  required: {
-                    value: true,
-                    message: "password field is required",
-                  },
-                })}
-                className={styles.input}
-                placeholder="password"
+              <InputField
+                dataName="password"
+                label="password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                required
               />
-              <Error errorMessage={errors.password?.message} />
-              <input
-                {...loginMethods.register("confirmPassword", {
-                  required: {
-                    value: true,
-                    message: "confirm password field is required",
-                  },
-                  validate: (value) =>
-                    watch("password") === value || "passwords do not match",
-                })}
-                className={styles.input}
-                placeholder="confirm password"
+              <InputField
+                dataName="confirmPassword"
+                label="confirm password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                required
+                watchedInput="password"
               />
-              <Error errorMessage={errors.confirmPassword?.message} />
-              <button className={styles.button}>Sign up</button>
-              <div className={styles.link}>
-                <Link to={"/login"}>Already have an account?</Link>
-              </div>
-              <Error errorMessage={error?.message} />
+              <Button variant="contained" type="submit">
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress size="30px" color="inherit" />
+                  ) : (
+                    "Sign up"
+                  )}
+                </Stack>
+              </Button>
+              <Typography className={styles.link}>
+                <Link to={ROUTES.LOGIN}>Already have an account?</Link>
+              </Typography>
             </div>
           </form>
         </FormProvider>
