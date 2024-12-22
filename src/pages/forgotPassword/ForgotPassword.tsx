@@ -73,7 +73,7 @@ export default function ForgotPassword() {
                 </Stack>
               </Button>
               <Typography className={styles.link}>
-                <Link to={"/login"}>Already have an account?</Link>
+                <Link to={ROUTES.LOGIN}>Already have an account?</Link>
               </Typography>
             </div>
           </form>
