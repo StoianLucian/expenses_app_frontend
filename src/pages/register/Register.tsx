@@ -16,13 +16,14 @@ import {
   TOAST_VARIANT,
 } from "../../context/toastContext.tsx/ToastContext";
 import { ROUTES } from "../../Routes/routes";
+import { TEXT } from "../../assets/commons/text";
 
 export default function Register() {
   const navigate = useNavigate();
   const { toastHandler } = UseToastContext();
-  const loginMethods = useForm<RegisterData>();
+  const registerMethods = useForm<RegisterData>();
 
-  const { handleSubmit, reset } = loginMethods;
+  const { handleSubmit, reset } = registerMethods;
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
@@ -48,7 +49,7 @@ export default function Register() {
   return (
     <section className={styles.container}>
       <div className={styles.loginContainer}>
-        <FormProvider {...loginMethods}>
+        <FormProvider {...registerMethods}>
           <form onSubmit={handleSubmit(submitHandler)}>
             <Logo />
             <div className={styles.inputsContainer}>
@@ -59,7 +60,7 @@ export default function Register() {
               <InputField
                 dataName="email"
                 label="email"
-                type="text"
+                type="email"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
               />
@@ -83,7 +84,7 @@ export default function Register() {
                   {isPending ? (
                     <CircularProgress size="30px" color="inherit" />
                   ) : (
-                    "Sign up"
+                    TEXT.SIGNUP
                   )}
                 </Stack>
               </Button>

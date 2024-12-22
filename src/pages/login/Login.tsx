@@ -23,6 +23,8 @@ import {
   UseToastContext,
   TOAST_VARIANT,
 } from "../../context/toastContext.tsx/ToastContext";
+import { ROUTES } from "../../Routes/routes";
+import { TEXT } from "../../assets/commons/text";
 
 export default function Login() {
   const { authenticateUser } = UseAuthContext();
@@ -83,15 +85,15 @@ export default function Login() {
                   {isPending ? (
                     <CircularProgress size="30px" color="inherit" />
                   ) : (
-                    "Login"
+                    TEXT.LOGIN
                   )}
                 </Stack>
               </Button>
               <Typography className={styles.link}>
-                <Link to={"/register"}>No account? Sign up here</Link>
+                <Link to={ROUTES.REGISTER}>No account? Sign up here</Link>
               </Typography>
               <Typography className={styles.link}>
-                <Link to={"/forgot-password"}>
+                <Link to={ROUTES.FORGOT_PASSWORD}>
                   Forgot password? Click here to reset
                 </Link>
               </Typography>

@@ -31,6 +31,14 @@ export default function InputField({
     watch,
   } = useFormContext();
 
+  function capitalizeFirstLetter(string: string) {
+    if (!string.trim()) return;
+
+    const label = `${string.charAt(0).toLocaleUpperCase()}${string.slice(1)}`;
+
+    return label;
+  }
+
   return (
     <Box
       sx={{
@@ -45,16 +53,24 @@ export default function InputField({
         {...register(`${dataName}`, {
           required: { value: required, message: `${label} is required` },
           validate: (value) => {
+            const inputValue = value.trim();
             if (watchedInput) {
-              return value === watch(watchedInput) || "passwords do not match";
+              return (
+                inputValue === watch(watchedInput) || "Passwords do not match"
+              );
+            }
+
+            if (inputValue.length === 0 && required) {
+              return "This field cannot be empty or contain only spaces";
             }
           },
         })}
         variant={variant}
-        label={label}
+        label={capitalizeFirstLetter(label)}
         type={type}
         required={required}
         error={!!errors[label]?.message}
+        placeholder={capitalizeFirstLetter(label)}
       />
       <Error errorMessage={errors[dataName]?.message as string | undefined} />
     </Box>
