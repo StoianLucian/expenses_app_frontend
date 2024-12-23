@@ -1,6 +1,7 @@
 import { Box, TextField } from "@mui/material";
 import Error from "../error/Error";
 import { useFormContext } from "react-hook-form";
+import { ERRORS } from "../../assets/commons/text";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
@@ -31,8 +32,8 @@ export default function InputField({
     watch,
   } = useFormContext();
 
-  function capitalizeFirstLetter(string: string) {
-    if (!string.trim()) return;
+  function capitalizeFirstLetter(string: string | undefined) {
+    if (!string?.trim()) return;
 
     const label = `${string.charAt(0).toLocaleUpperCase()}${string.slice(1)}`;
 
@@ -51,24 +52,22 @@ export default function InputField({
     >
       <TextField
         {...register(`${dataName}`, {
-          required: { value: required, message: `${label} is required` },
+          required: { value: required, message: `${capitalizeFirstLetter(label)} is required` },
           validate: (value) => {
             const inputValue = value.trim();
+
             if (watchedInput) {
-              return (
-                inputValue === watch(watchedInput) || "Passwords do not match"
-              );
+              return value === watch(watchedInput) || ERRORS.PSW_NO_MATCH;
             }
 
             if (inputValue.length === 0 && required) {
-              return "This field cannot be empty or contain only spaces";
+              return ERRORS.FIELD_EMPTY(capitalizeFirstLetter(label));
             }
           },
         })}
         variant={variant}
         label={capitalizeFirstLetter(label)}
         type={type}
-        required={required}
         error={!!errors[label]?.message}
         placeholder={capitalizeFirstLetter(label)}
       />

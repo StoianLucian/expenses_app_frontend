@@ -7,4 +7,6 @@ export const TEXT = {
 
 export const ERRORS = {
   PSW_NO_MATCH: "Passwords do not match",
+  FIELD_EMPTY: (label: string | undefined) =>
+    `${label} field cannot be empty or contain only spaces`,
 };

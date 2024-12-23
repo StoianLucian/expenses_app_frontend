@@ -79,7 +79,7 @@ export default function Register() {
                 required
                 watchedInput="password"
               />
-              <Button variant="contained" type="submit">
+              <Button variant="contained" type="submit" data-testid="submitBtn">
                 <Stack sx={{ color: "white" }}>
                   {isPending ? (
                     <CircularProgress size="30px" color="inherit" />
