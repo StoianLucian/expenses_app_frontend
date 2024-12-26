@@ -15,8 +15,8 @@ import {
   UseToastContext,
   TOAST_VARIANT,
 } from "../../context/toastContext.tsx/ToastContext";
-import { ROUTES } from "../../Routes/routes";
 import { TEXT } from "../../assets/commons/text";
+import { ROUTES } from "../../Routes/routes";
 
 export default function Register() {
   const navigate = useNavigate();

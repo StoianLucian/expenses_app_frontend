@@ -80,7 +80,7 @@ export default function Login() {
                 dataName="password"
                 required
               />
-              <Button variant="contained" type="submit">
+              <Button variant="contained" type="submit" data-testid="loginBtn">
                 <Stack sx={{ color: "white" }}>
                   {isPending ? (
                     <CircularProgress size="30px" color="inherit" />
