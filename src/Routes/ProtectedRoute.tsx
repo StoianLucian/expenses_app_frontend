@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { UserType } from "../types/shared/user";
+import { ROUTES } from "./routes";
 
 export default function ProtectedRoute({
   component,
@@ -8,5 +9,5 @@ export default function ProtectedRoute({
   component: JSX.Element;
   isLoggedIn: UserType | undefined;
 }) {
-  return isLoggedIn ? component : <Navigate to="/login" />;
+  return isLoggedIn ? component : <Navigate to={ROUTES.LOGIN} />;
 }
