@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./NotFound.module.scss";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Routes/routes";
 
 export default function NotFound() {
   const [seconds, setSeconds] = useState<number>(5);
@@ -15,7 +16,7 @@ export default function NotFound() {
       return () => clearTimeout(timeout); // Cleanup timeout
     } else {
       // Navigate after countdown ends
-      navigate("/login");
+      navigate(ROUTES.LOGIN);
     }
   }, [seconds, navigate]);
 

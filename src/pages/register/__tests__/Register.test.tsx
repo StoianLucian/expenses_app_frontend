@@ -1,61 +1,83 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Register from "../Register";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter } from "react-router-dom";
+import { ToastContextProvider } from "../../../context/toastContext.tsx/ToastContext";
 
 describe("Register Component", () => {
+  let emailInput: HTMLInputElement;
+  let passwordInput: HTMLInputElement;
+  let confirmPasswordInput: HTMLInputElement;
+  let signUpBtn: HTMLButtonElement;
+
   beforeEach(() => {
     const queryClient = new QueryClient();
     render(
-      <QueryClientProvider client={queryClient}>
-        <Register />
-      </QueryClientProvider>
+      <ToastContextProvider>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <Register />
+          </QueryClientProvider>
+        </BrowserRouter>
+      </ToastContextProvider>
     );
+
+    emailInput = screen.getByPlaceholderText("Email");
+    passwordInput = screen.getByPlaceholderText("Password");
+    confirmPasswordInput = screen.getByPlaceholderText("Confirm password");
+    signUpBtn = screen.getByTestId("submitBtn");
   });
 
   it("should render the register form", () => {
-    const emailInput = screen.getByPlaceholderText("email address");
-
-    fireEvent.change(emailInput, { target: { value: "test" } });
-
-    const signUpButton = screen.getByText("Sign up");
-
-    fireEvent.click(signUpButton);
-
-    // Check if the form elements are rendered
-    expect(screen.getByPlaceholderText("email address")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("password")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("confirm password")).toBeInTheDocument();
-    expect(screen.getByText("Sign up")).toBeInTheDocument();
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+    expect(confirmPasswordInput).toBeInTheDocument();
+    expect(signUpBtn).toBeInTheDocument();
   });
 
-  it("should show error message for missing email value", async () => {
-    const emailInput = screen.getByPlaceholderText("email address");
+  it("should show error messages for missing email, password and confirm password values", async () => {
+    await userEvent.click(signUpBtn);
+    const emailError = screen.getByText("Email is required");
+    const passwordError = screen.getByText("Password is required");
+    const confirmPassword = screen.getByText("Confirm password is required");
 
+    expect(emailError).toBeInTheDocument();
+    expect(passwordError).toBeInTheDocument();
+    expect(confirmPassword).toBeInTheDocument();
+  });
+
+  it("should show error message when entering only space", async () => {
     await userEvent.type(emailInput, " ");
 
-    const button = screen.getByText("Sign up");
+    await userEvent.click(signUpBtn);
 
-    await userEvent.click(button);
+    const emailError = screen.getByText("Email is required");
 
-    expect(screen.getByText("email field is required")).toBeInTheDocument();
-
-    screen.debug();
+    expect(emailError).toBeInTheDocument();
   });
 
-  it("should show error message for missing password value", async () => {
-    const emailInput = screen.getByPlaceholderText("email address");
-    // const passwordInput = screen.getByPlaceholderText("password");
+  it("should show error message when passwords do not match", async () => {
+    await userEvent.type(emailInput, "test@email.com");
 
-    await userEvent.type(emailInput, "email@test.com");
+    await userEvent.type(passwordInput, "password123");
 
+    await userEvent.type(confirmPasswordInput, "password");
 
-    const button = screen.getByText("Sign up");
+    await userEvent.click(signUpBtn);
 
-    await userEvent.click(button);
+    const noMatchPasswords = screen.getByText("Passwords do not match");
 
-    expect(screen.getByText("password field is required")).toBeInTheDocument();
+    expect(noMatchPasswords).toBeInTheDocument();
+  });
 
-    screen.debug();
+  it("should show error message when passwords do not match", async () => {
+    await userEvent.type(emailInput, "test@email.com");
+
+    await userEvent.type(passwordInput, "password123");
+
+    await userEvent.type(confirmPasswordInput, "password123");
+
+    await userEvent.click(signUpBtn);
   });
 });
