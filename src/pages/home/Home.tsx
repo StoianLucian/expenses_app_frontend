@@ -1,3 +1,10 @@
+import { Box } from "@mui/material";
+import SidePanel from "../../components/sidePanel/SidePanel";
+
 export default function HomePage() {
-  return <div>H</div>;
+  return (
+    <Box>
+      <SidePanel />
+    </Box>
+  );
 }
