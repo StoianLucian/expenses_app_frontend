@@ -63,7 +63,7 @@ export default function InputField({
         variant={variant}
         label={label}
         type={type}
-        error={!!errors[label]?.message}
+        error={!!errors[dataName]?.message}
         placeholder={label}
       />
       <Error errorMessage={errors[dataName]?.message as string | undefined} />
