@@ -1,7 +1,7 @@
 import { Box, TextField } from "@mui/material";
 import Error from "../error/Error";
 import { useFormContext } from "react-hook-form";
-import { ERRORS } from "../../assets/commons/text";
+import { ERRORS } from "../../utils/strings";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
@@ -15,7 +15,7 @@ type InputProps = {
   variant: INPUT_FIELD_VARIANTS;
   required?: boolean;
   dataName: string;
-  watchedInput?: string | undefined;
+  watchedInput?: string;
 };
 
 export default function InputField({
@@ -24,21 +24,13 @@ export default function InputField({
   variant,
   required = false,
   dataName,
-  watchedInput = undefined,
+  watchedInput,
 }: InputProps) {
   const {
     register,
     formState: { errors },
     watch,
   } = useFormContext();
-
-  function capitalizeFirstLetter(string: string | undefined) {
-    if (!string?.trim()) return;
-
-    const label = `${string.charAt(0).toLocaleUpperCase()}${string.slice(1)}`;
-
-    return label;
-  }
 
   return (
     <Box
@@ -54,7 +46,7 @@ export default function InputField({
         {...register(`${dataName}`, {
           required: {
             value: required,
-            message: ERRORS.REQUIRED(capitalizeFirstLetter(label)),
+            message: ERRORS.REQUIRED(label),
           },
           validate: (value) => {
             const inputValue = value.trim();
@@ -64,15 +56,15 @@ export default function InputField({
             }
 
             if (inputValue.length === 0 && required) {
-              return ERRORS.FIELD_EMPTY(capitalizeFirstLetter(label));
+              return ERRORS.FIELD_EMPTY(label);
             }
           },
         })}
         variant={variant}
-        label={capitalizeFirstLetter(label)}
+        label={label}
         type={type}
         error={!!errors[label]?.message}
-        placeholder={capitalizeFirstLetter(label)}
+        placeholder={label}
       />
       <Error errorMessage={errors[dataName]?.message as string | undefined} />
     </Box>

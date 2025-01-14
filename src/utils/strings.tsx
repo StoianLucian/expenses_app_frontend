@@ -6,8 +6,8 @@ export const TEXT = {
 };
 
 export const ERRORS = {
-  REQUIRED: (label: string | undefined) => `${label} is required`,
+  REQUIRED: (label: string) => `${label} is required`,
   PSW_NO_MATCH: "Passwords do not match",
-  FIELD_EMPTY: (label: string | undefined) =>
+  FIELD_EMPTY: (label: string) =>
     `${label} field cannot be empty or contain only spaces`,
 };

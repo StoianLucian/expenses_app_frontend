@@ -7,12 +7,12 @@ import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, CircularProgress, Stack, Typography } from "@mui/material";
-
-import { TEXT } from "../../assets/commons/text";
+import { TEXT } from "../../utils/strings";
 import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
+
 
 export default function Register() {
   const navigate = useNavigate();
