@@ -48,21 +48,21 @@ export default function Register() {
               </h2>
               <InputField
                 dataName="email"
-                label="email"
+                label="Email"
                 type="email"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
               />
               <InputField
                 dataName="password"
-                label="password"
+                label="Password"
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
               />
               <InputField
                 dataName="confirmPassword"
-                label="confirm password"
+                label="Confirm password"
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
