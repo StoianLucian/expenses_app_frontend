@@ -2,30 +2,30 @@ import { useMutation } from "@tanstack/react-query";
 import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
 import Logo from "../../components/logo/Logo";
 import styles from "./Register.module.scss";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
-import { Link } from "react-router-dom";
-import Error from "../../components/error/Error";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, CircularProgress, Stack, Typography } from "@mui/material";
+import { TEXT } from "../../utils/strings";
+import { ROUTES } from "../../Routes/routes";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/inputs/InputField";
+
 
 export default function Register() {
-  const loginMethods = useForm<RegisterData>();
+  const navigate = useNavigate();
+  const registerMethods = useForm<RegisterData>();
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    reset,
-    watch,
-  } = loginMethods;
+  const { handleSubmit, reset } = registerMethods;
 
-  const { mutate, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
-    onSuccess: (success) => {
-      console.log(success);
+    onSuccess: (_success) => {
+      navigate(ROUTES.LOGIN);
     },
-    onError: async (fail) => {
-      console.log(fail);
+    onError: async (_fail) => {
       reset();
     },
   });
@@ -38,7 +38,7 @@ export default function Register() {
   return (
     <section className={styles.container}>
       <div className={styles.loginContainer}>
-        <FormProvider {...loginMethods}>
+        <FormProvider {...registerMethods}>
           <form onSubmit={handleSubmit(submitHandler)}>
             <Logo />
             <div className={styles.inputsContainer}>
@@ -46,46 +46,40 @@ export default function Register() {
                 Welcome to our expenses app <br />
                 Sign up to your account
               </h2>
-              <input
-                {...loginMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
+              <InputField
+                dataName="email"
+                label="Email"
                 type="email"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                required
               />
-              <Error errorMessage={errors.email?.message} />
-              <input
-                {...loginMethods.register("password", {
-                  required: {
-                    value: true,
-                    message: "password field is required",
-                  },
-                })}
-                className={styles.input}
-                placeholder="password"
+              <InputField
+                dataName="password"
+                label="Password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                required
               />
-              <Error errorMessage={errors.password?.message} />
-              <input
-                {...loginMethods.register("confirmPassword", {
-                  required: {
-                    value: true,
-                    message: "confirm password field is required",
-                  },
-                  validate: (value) =>
-                    watch("password") === value || "passwords do not match",
-                })}
-                className={styles.input}
-                placeholder="confirm password"
+              <InputField
+                dataName="confirmPassword"
+                label="Confirm password"
                 type="password"
+                variant={INPUT_FIELD_VARIANTS.OUTLINED}
+                required
+                watchedInput="password"
               />
-              <Error errorMessage={errors.confirmPassword?.message} />
-              <button className={styles.button}>Sign up</button>
-              <div className={styles.link}>
-                <Link to={"/login"}>Already have an account?</Link>
-              </div>
-              <Error errorMessage={error?.message} />
+              <Button variant="contained" type="submit" data-testid="submitBtn">
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress size="30px" color="inherit" />
+                  ) : (
+                    TEXT.SIGNUP
+                  )}
+                </Stack>
+              </Button>
+              <Typography className={styles.link}>
+                <Link to={ROUTES.LOGIN}>Already have an account?</Link>
+              </Typography>
             </div>
           </form>
         </FormProvider>
