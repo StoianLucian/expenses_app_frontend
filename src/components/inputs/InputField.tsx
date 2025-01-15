@@ -1,5 +1,4 @@
 import { Box, TextField } from "@mui/material";
-import Error from "../error/Error";
 import { useFormContext } from "react-hook-form";
 import { ERRORS } from "../../utils/strings";
 
@@ -39,7 +38,7 @@ export default function InputField({
         flexDirection: "column",
         alignItems: "center",
         gap: 1,
-        marginBottom: 3,
+        marginBottom: "10px",
       }}
     >
       <TextField
@@ -65,8 +64,8 @@ export default function InputField({
         type={type}
         error={!!errors[dataName]?.message}
         placeholder={label}
+        helperText={errors[dataName]?.message as string}
       />
-      <Error errorMessage={errors[dataName]?.message as string | undefined} />
     </Box>
   );
 }
