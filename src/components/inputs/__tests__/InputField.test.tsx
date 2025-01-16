@@ -94,7 +94,7 @@ describe("Password InputField component tests", () => {
   it("shows error message whe password doesn't contain a number", async () => {
     await userEvent.type(passwordInput, "Luci@nasdasdasd");
     await userEvent.click(submitBtn);
-    screen.debug();
+
     expect(await screen.findByText(ERRORS.NUMBER)).toBeInTheDocument();
   });
 });
