@@ -39,7 +39,7 @@ export default function InputField({
     minPasswordLength,
     watchedInput,
     watch,
-    type
+    type,
   });
 
   return (
@@ -50,13 +50,14 @@ export default function InputField({
         alignItems: "center",
         gap: 1,
         marginBottom: "10px",
+        ".MuiFormHelperText-root": { m: 0 },
       }}
     >
       <TextField
         sx={{
           width: "20rem",
         }}
-        {...register(`${dataName}`, validationRules)}
+        {...register(dataName, validationRules)}
         variant={variant}
         label={label}
         type={type}

@@ -1,7 +1,7 @@
 import { FieldValues, UseFormWatch } from "react-hook-form";
 import { ERRORS } from "../../utils/strings";
 
-type getValidationRulesProps = {
+type GetValidationRulesProps = {
   label: string;
   required?: boolean;
   minPasswordLength?: number;
@@ -12,15 +12,15 @@ type getValidationRulesProps = {
 
 export const getValidationRules = ({
   label,
-  required = false,
+  required,
   minPasswordLength,
   watchedInput,
   watch,
   type,
-}: getValidationRulesProps) => {
+}: GetValidationRulesProps) => {
   return {
     required: {
-      value: required,
+      value: !!required,
       message: ERRORS.REQUIRED(label),
     },
     ...(minPasswordLength &&

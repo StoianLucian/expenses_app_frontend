@@ -7,6 +7,8 @@ import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
 import { ERRORS } from "../../../utils/strings";
 
+const passwordLabel = "Password";
+
 const renderWithForm = (ui: JSX.Element) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
     const methods = useForm();
@@ -38,7 +40,7 @@ describe("Password InputField component tests", () => {
     renderWithForm(
       <InputField
         dataName="password"
-        label="Password"
+        label={passwordLabel}
         type="password"
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
@@ -57,7 +59,7 @@ describe("Password InputField component tests", () => {
     await userEvent.click(submitBtn);
 
     expect(
-      await screen.findByText(ERRORS.REQUIRED("Password"))
+      await screen.findByText(ERRORS.REQUIRED(passwordLabel))
     ).toBeInTheDocument();
   });
 
@@ -68,7 +70,7 @@ describe("Password InputField component tests", () => {
     expect(await screen.findByText(ERRORS.MIN_LENGTH(10))).toBeInTheDocument();
   });
 
-  it("shows error message whe password doesn't contain a special character", async () => {
+  it("shows error message when password doesn't contain a special character", async () => {
     await userEvent.type(passwordInput, "lucian123123123");
     await userEvent.click(submitBtn);
 
@@ -77,21 +79,21 @@ describe("Password InputField component tests", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows error message whe password doesn't contain a special character", async () => {
+  it("shows error message when password doesn't contain an uppercase character", async () => {
     await userEvent.type(passwordInput, "luci@n123123123");
     await userEvent.click(submitBtn);
 
     expect(await screen.findByText(ERRORS.UPPERCASE)).toBeInTheDocument();
   });
 
-  it("shows error message whe password doesn't contain a special character", async () => {
+  it("shows error message when password doesn't contain a lowercase character", async () => {
     await userEvent.type(passwordInput, "LUCIA@N123123123");
     await userEvent.click(submitBtn);
 
     expect(await screen.findByText(ERRORS.LOWERCASE)).toBeInTheDocument();
   });
 
-  it("shows error message whe password doesn't contain a number", async () => {
+  it("shows error message when password doesn't contain a number", async () => {
     await userEvent.type(passwordInput, "Luci@nasdasdasd");
     await userEvent.click(submitBtn);
 
