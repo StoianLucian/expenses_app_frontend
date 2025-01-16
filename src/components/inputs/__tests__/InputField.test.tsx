@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { describe, it, expect } from "vitest";
 import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
@@ -48,7 +48,7 @@ describe("Password InputField component tests", () => {
       />
     );
 
-    submitBtn = screen.getByText("Submit");
+    submitBtn = screen.getByRole("button", { name: "Submit" });
     passwordInput = screen.getByPlaceholderText("Password");
   });
   it("renders input field with password label", () => {
