@@ -59,6 +59,7 @@ export default function Register() {
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
+                minPasswordLength={10}
               />
               <InputField
                 dataName="confirmPassword"
