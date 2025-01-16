@@ -1,6 +1,6 @@
 import { Box, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import { getValidationRules } from "./InputFieldValidationRules";
+import { getValidationRules } from "./inputFieldUtils";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
