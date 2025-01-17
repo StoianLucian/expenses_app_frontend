@@ -14,7 +14,7 @@ const renderWithForm = (ui: JSX.Element) => {
     const methods = useForm();
 
     //function created just to trigger useForm's validation
-    const mockSubmitFunction = vi.fn()
+    const mockSubmitFunction = vi.fn();
     const { handleSubmit } = methods;
 
     return (
@@ -49,6 +49,14 @@ describe("Password InputField component tests", () => {
 
     submitBtn = screen.getByRole("button", { name: "Submit" });
     passwordInput = screen.getByTestId("passwordField");
+  });
+
+  it("accepts input for password", async () => {
+    const password = "TestP@ssword123";
+
+    await userEvent.type(passwordInput, password);
+
+    expect(passwordInput.value).toBe(password);
   });
 
   it("renders input field with password label", () => {
