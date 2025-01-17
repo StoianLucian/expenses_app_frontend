@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
@@ -14,9 +14,7 @@ const renderWithForm = (ui: JSX.Element) => {
     const methods = useForm();
 
     //function created just to trigger useForm's validation
-    const mockSubmitFunction = (data: any) => {
-      console.log(data); //
-    };
+    const mockSubmitFunction = vi.fn()
     const { handleSubmit } = methods;
 
     return (
@@ -51,6 +49,7 @@ describe("Password InputField component tests", () => {
     submitBtn = screen.getByRole("button", { name: "Submit" });
     passwordInput = screen.getByPlaceholderText("Password");
   });
+
   it("renders input field with password label", () => {
     expect(passwordInput).toBeInTheDocument();
   });

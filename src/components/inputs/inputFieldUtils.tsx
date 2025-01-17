@@ -24,7 +24,7 @@ export const getValidationRules = ({
       message: ERRORS.REQUIRED(label),
     },
     ...(minPasswordLength &&
-      minPasswordLength !== 0 && {
+      minPasswordLength > 0 && {
         minLength: {
           value: minPasswordLength,
           message: ERRORS.MIN_LENGTH(minPasswordLength),
