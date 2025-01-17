@@ -17,3 +17,9 @@ export const ERRORS = {
   UPPERCASE: "Password must contain at least one upper case character",
   NUMBER: "Password must contain at least one number",
 };
+
+export const TEST_ID = {
+  EMAIL_FIELD: "emailField",
+  PASSWORD_FIELD: "passwordField",
+  CONFIRM_PASSWORD_FIELD: "confirmPasswordField",
+};

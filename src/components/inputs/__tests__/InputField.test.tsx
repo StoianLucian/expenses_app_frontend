@@ -5,7 +5,7 @@ import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
-import { ERRORS } from "../../../utils/strings";
+import { ERRORS, TEST_ID } from "../../../utils/strings";
 
 const passwordLabel = "Password";
 
@@ -43,12 +43,12 @@ describe("Password InputField component tests", () => {
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
         minPasswordLength={10}
-        dataTestId="passwordField"
+        dataTestId={TEST_ID.PASSWORD_FIELD}
       />
     );
 
     submitBtn = screen.getByRole("button", { name: "Submit" });
-    passwordInput = screen.getByTestId("passwordField");
+    passwordInput = screen.getByTestId(TEST_ID.PASSWORD_FIELD);
   });
 
   it("accepts input for password", async () => {
