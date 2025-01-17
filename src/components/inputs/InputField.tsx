@@ -16,6 +16,7 @@ type InputProps = {
   dataName: string;
   watchedInput?: string;
   minPasswordLength?: number;
+  dataTestId: string;
 };
 
 export default function InputField({
@@ -26,6 +27,7 @@ export default function InputField({
   dataName,
   watchedInput,
   minPasswordLength,
+  dataTestId,
 }: InputProps) {
   const {
     register,
@@ -64,6 +66,7 @@ export default function InputField({
         error={!!errors[dataName]?.message}
         placeholder={label}
         helperText={errors[dataName]?.message as string}
+        inputProps={{ "data-testid": dataTestId }}
       />
     </Box>
   );

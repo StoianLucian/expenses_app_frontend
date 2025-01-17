@@ -43,11 +43,12 @@ describe("Password InputField component tests", () => {
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
         minPasswordLength={10}
+        dataTestId="passwordField"
       />
     );
 
     submitBtn = screen.getByRole("button", { name: "Submit" });
-    passwordInput = screen.getByPlaceholderText("Password");
+    passwordInput = screen.getByTestId("passwordField");
   });
 
   it("renders input field with password label", () => {

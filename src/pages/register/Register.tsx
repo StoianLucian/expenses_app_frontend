@@ -52,6 +52,7 @@ export default function Register() {
                 type="email"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
+                dataTestId="email"
               />
               <InputField
                 dataName="password"
@@ -60,6 +61,7 @@ export default function Register() {
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 minPasswordLength={10}
+                dataTestId="passowrd"
               />
               <InputField
                 dataName="confirmPassword"
@@ -68,6 +70,7 @@ export default function Register() {
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 watchedInput="password"
+                dataTestId="confirmPassword"
               />
               <Button variant="contained" type="submit" data-testid="submitBtn">
                 <Stack sx={{ color: "white" }}>
