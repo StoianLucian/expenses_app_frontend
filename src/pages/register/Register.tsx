@@ -7,7 +7,7 @@ import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, CircularProgress, Stack, Typography } from "@mui/material";
-import { TEST_ID, TEXT } from "../../utils/strings";
+import { LABEL, TEST_ID, TEXT } from "../../utils/strings";
 import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
@@ -47,7 +47,7 @@ export default function Register() {
               </h2>
               <InputField
                 dataName="email"
-                label="Email"
+                label={LABEL.EMAIL_FIELD}
                 type="email"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
@@ -55,7 +55,7 @@ export default function Register() {
               />
               <InputField
                 dataName="password"
-                label="Password"
+                label={LABEL.PASSWORD_FIELD}
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
@@ -64,7 +64,7 @@ export default function Register() {
               />
               <InputField
                 dataName="confirmPassword"
-                label="Confirm password"
+                label={LABEL.CONFIRM_PASSWORD_FIELD}
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required

@@ -5,9 +5,7 @@ import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
-import { ERRORS, TEST_ID } from "../../../utils/strings";
-
-const passwordLabel = "Password";
+import { ERRORS, LABEL, TEST_ID } from "../../../utils/strings";
 
 const renderWithForm = (ui: JSX.Element) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
@@ -38,7 +36,7 @@ describe("Password InputField component tests", () => {
     renderWithForm(
       <InputField
         dataName="password"
-        label={passwordLabel}
+        label={LABEL.PASSWORD_FIELD}
         type="password"
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
@@ -67,7 +65,7 @@ describe("Password InputField component tests", () => {
     await userEvent.click(submitBtn);
 
     expect(
-      await screen.findByText(ERRORS.REQUIRED(passwordLabel))
+      await screen.findByText(ERRORS.REQUIRED(LABEL.PASSWORD_FIELD))
     ).toBeInTheDocument();
   });
 
