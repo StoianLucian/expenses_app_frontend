@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { describe, it, expect, vi } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
@@ -49,7 +49,7 @@ describe("Password InputField component tests", () => {
     passwordInput = screen.getByTestId(TEST_ID.PASSWORD_FIELD);
   });
 
-  it("accepts input for password", async () => {
+  test("accepts input for password", async () => {
     const password = "TestP@ssword123";
 
     await userEvent.type(passwordInput, password);
@@ -57,12 +57,12 @@ describe("Password InputField component tests", () => {
     expect(passwordInput.value).toBe(password);
   });
 
-  it("renders input field with password label", () => {
+  test("renders input field with password label", () => {
 
     expect(passwordInput).toBeInTheDocument();
   });
 
-  it("shows required error message when field is empty", async () => {
+  test("shows required error message when field is empty", async () => {
     await userEvent.click(submitBtn);
 
     expect(
@@ -70,14 +70,14 @@ describe("Password InputField component tests", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows error message when password is not 10 characters long", async () => {
+  test("shows error message when password is not 10 characters long", async () => {
     await userEvent.type(passwordInput, "lucian123");
     await userEvent.click(submitBtn);
 
     expect(await screen.findByText(ERRORS.MIN_LENGTH(10))).toBeInTheDocument();
   });
 
-  it("shows error message when password doesn't contain a special character", async () => {
+  test("shows error message when password doesn't contain a special character", async () => {
     await userEvent.type(passwordInput, "lucian123123123");
     await userEvent.click(submitBtn);
 
@@ -86,21 +86,21 @@ describe("Password InputField component tests", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows error message when password doesn't contain an uppercase character", async () => {
+  test("shows error message when password doesn't contain an uppercase character", async () => {
     await userEvent.type(passwordInput, "luci@n123123123");
     await userEvent.click(submitBtn);
 
     expect(await screen.findByText(ERRORS.UPPERCASE)).toBeInTheDocument();
   });
 
-  it("shows error message when password doesn't contain a lowercase character", async () => {
+  test("shows error message when password doesn't contain a lowercase character", async () => {
     await userEvent.type(passwordInput, "LUCIA@N123123123");
     await userEvent.click(submitBtn);
 
     expect(await screen.findByText(ERRORS.LOWERCASE)).toBeInTheDocument();
   });
 
-  it("shows error message when password doesn't contain a number", async () => {
+  test("shows error message when password doesn't contain a number", async () => {
     await userEvent.type(passwordInput, "Luci@nasdasdasd");
     await userEvent.click(submitBtn);
 
