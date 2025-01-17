@@ -58,6 +58,7 @@ describe("Password InputField component tests", () => {
   });
 
   it("renders input field with password label", () => {
+
     expect(passwordInput).toBeInTheDocument();
   });
 
