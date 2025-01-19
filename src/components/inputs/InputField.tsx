@@ -1,6 +1,6 @@
 import { Box, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import { ERRORS } from "../../utils/strings";
+import { getValidationRules } from "./inputFieldUtils";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
@@ -15,6 +15,8 @@ type InputProps = {
   required?: boolean;
   dataName: string;
   watchedInput?: string;
+  minPasswordLength?: number;
+  dataTestId: string;
 };
 
 export default function InputField({
@@ -24,12 +26,23 @@ export default function InputField({
   required = false,
   dataName,
   watchedInput,
+  minPasswordLength,
+  dataTestId,
 }: InputProps) {
   const {
     register,
     formState: { errors },
     watch,
   } = useFormContext();
+
+  const validationRules = getValidationRules({
+    label,
+    required,
+    minPasswordLength,
+    watchedInput,
+    watch,
+    type,
+  });
 
   return (
     <Box
@@ -39,32 +52,21 @@ export default function InputField({
         alignItems: "center",
         gap: 1,
         marginBottom: "10px",
+        ".MuiFormHelperText-root": { m: 0 },
       }}
     >
       <TextField
-        {...register(`${dataName}`, {
-          required: {
-            value: required,
-            message: ERRORS.REQUIRED(label),
-          },
-          validate: (value) => {
-            const inputValue = value.trim();
-
-            if (watchedInput) {
-              return value === watch(watchedInput) || ERRORS.PSW_NO_MATCH;
-            }
-
-            if (inputValue.length === 0 && required) {
-              return ERRORS.FIELD_EMPTY(label);
-            }
-          },
-        })}
+        sx={{
+          width: "20rem",
+        }}
+        {...register(dataName, validationRules)}
         variant={variant}
         label={label}
         type={type}
         error={!!errors[dataName]?.message}
         placeholder={label}
         helperText={errors[dataName]?.message as string}
+        inputProps={{ "data-testid": dataTestId }}
       />
     </Box>
   );

@@ -7,12 +7,11 @@ import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, CircularProgress, Stack, Typography } from "@mui/material";
-import { TEXT } from "../../utils/strings";
+import { LABEL, TEST_ID, TEXT } from "../../utils/strings";
 import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
-
 
 export default function Register() {
   const navigate = useNavigate();
@@ -48,25 +47,29 @@ export default function Register() {
               </h2>
               <InputField
                 dataName="email"
-                label="Email"
+                label={LABEL.EMAIL_FIELD}
                 type="email"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
+                dataTestId={TEST_ID.EMAIL_FIELD}
               />
               <InputField
                 dataName="password"
-                label="Password"
+                label={LABEL.PASSWORD_FIELD}
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
+                minPasswordLength={10}
+                dataTestId={TEST_ID.PASSWORD_FIELD}
               />
               <InputField
                 dataName="confirmPassword"
-                label="Confirm password"
+                label={LABEL.CONFIRM_PASSWORD_FIELD}
                 type="password"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 watchedInput="password"
+                dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
               />
               <Button variant="contained" type="submit" data-testid="submitBtn">
                 <Stack sx={{ color: "white" }}>
