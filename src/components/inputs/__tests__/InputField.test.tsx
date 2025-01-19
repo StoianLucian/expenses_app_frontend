@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
 import { ERRORS, LABEL, TEST_ID } from "../../../utils/strings";
 
-const renderWithForm = (ui: JSX.Element) => {
+const renderWithForm = (ui: ReactNode) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
     const methods = useForm();
 

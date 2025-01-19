@@ -30,8 +30,7 @@ export const getValidationRules = ({
           message: ERRORS.MIN_LENGTH(minPasswordLength),
         },
       }),
-    validate: (value: string) => {
-      const inputValue = value.trim();
+    validate: (value: string) => {;
 
       const specialCharRegex = /[!#@$%^&*(),.?":{}|<>]/;
       const lowerCaseRegex = /[a-z]/;
@@ -47,18 +46,18 @@ export const getValidationRules = ({
         ];
 
         for (const { regex, error } of validations) {
-          if (!regex.test(inputValue)) {
+          if (!regex.test(value)) {
             return error;
           }
         }
       }
 
-      if (inputValue.length === 0 && required) {
+      if (value.length === 0 && required) {
         return ERRORS.FIELD_EMPTY(label);
       }
 
       if (watchedInput) {
-        return inputValue === watch(watchedInput) || ERRORS.PSW_NO_MATCH;
+        return value === watch(watchedInput) || ERRORS.PSW_NO_MATCH;
       }
     },
   };
