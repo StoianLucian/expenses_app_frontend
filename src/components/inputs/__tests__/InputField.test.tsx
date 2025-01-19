@@ -5,7 +5,7 @@ import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
-import {  LABEL } from "../../../utils/strings";
+import { LABEL } from "../../../utils/strings";
 import { TEST_ID } from "./testIds";
 import { ERRORS } from "../inputFieldUtils";
 
@@ -54,6 +54,7 @@ describe("Password InputField component tests", () => {
   });
 
   test("renders input field with password label", () => {
+
     expect(passwordInput).toBeInTheDocument();
   });
 
