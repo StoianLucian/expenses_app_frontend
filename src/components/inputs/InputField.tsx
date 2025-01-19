@@ -1,6 +1,11 @@
 import { Box, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import { getValidationRules } from "./inputFieldUtils";
+import {
+  getValidationRules,
+  isPasswordType,
+  renderVisibilityComponent,
+} from "./inputFieldUtils";
+import { useState } from "react";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
@@ -16,7 +21,7 @@ type InputProps = {
   dataName: string;
   watchedInput?: string;
   minPasswordLength?: number;
-  dataTestId: string;
+  dataTestId?: string;
 };
 
 export default function InputField({
@@ -29,6 +34,14 @@ export default function InputField({
   minPasswordLength,
   dataTestId,
 }: InputProps) {
+  const [inputType, setInputType] = useState<string>(type);
+  const [visibility, setVisibility] = useState<boolean>(false);
+
+  function toggleVisibility() {
+    setVisibility(!visibility);
+    setInputType(visibility ? "password" : "text");
+  }
+
   const {
     register,
     formState: { errors },
@@ -62,11 +75,18 @@ export default function InputField({
         {...register(dataName, validationRules)}
         variant={variant}
         label={label}
-        type={type}
+        type={inputType}
         error={!!errors[dataName]?.message}
         placeholder={label}
         helperText={errors[dataName]?.message as string}
-        inputProps={{ "data-testid": dataTestId }}
+        slotProps={{
+          input: {
+            inputProps: { "data-testid": dataTestId },
+            endAdornment:
+              isPasswordType(type) &&
+              renderVisibilityComponent(visibility, toggleVisibility),
+          },
+        }}
       />
     </Box>
   );
