@@ -1,23 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
-import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
-import Logo from "../../components/logo/Logo";
-import styles from "./Register.module.scss";
 import { FormProvider, useForm } from "react-hook-form";
-import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, CircularProgress, Stack, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { LABEL, TEST_ID, TEXT } from "../../utils/strings";
 import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
+import AuthForm from "../../components/test/AuthForm";
+import { RegisterData } from "../../types/auth";
 
 export default function Register() {
   const navigate = useNavigate();
   const registerMethods = useForm<RegisterData>();
 
-  const { handleSubmit, reset } = registerMethods;
+  const { reset } = registerMethods;
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: RegisterData) => register(data),
@@ -35,59 +32,42 @@ export default function Register() {
   }
 
   return (
-    <section className={styles.container}>
-      <div className={styles.loginContainer}>
-        <FormProvider {...registerMethods}>
-          <form onSubmit={handleSubmit(submitHandler)}>
-            <Logo />
-            <div className={styles.inputsContainer}>
-              <h2 className={styles.title}>
-                Welcome to our expenses app <br />
-                Sign up to your account
-              </h2>
-              <InputField
-                dataName="email"
-                label={LABEL.EMAIL_FIELD}
-                type="email"
-                variant={INPUT_FIELD_VARIANTS.OUTLINED}
-                required
-                dataTestId={TEST_ID.EMAIL_FIELD}
-              />
-              <InputField
-                dataName="password"
-                label={LABEL.PASSWORD_FIELD}
-                type="password"
-                variant={INPUT_FIELD_VARIANTS.OUTLINED}
-                required
-                minPasswordLength={10}
-                dataTestId={TEST_ID.PASSWORD_FIELD}
-              />
-              <InputField
-                dataName="confirmPassword"
-                label={LABEL.CONFIRM_PASSWORD_FIELD}
-                type="password"
-                variant={INPUT_FIELD_VARIANTS.OUTLINED}
-                required
-                watchedInput="password"
-                dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
-              />
-              <Button variant="contained" type="submit" data-testid="submitBtn">
-                <Stack sx={{ color: "white" }}>
-                  {isPending ? (
-                    <CircularProgress size="30px" color="inherit" />
-                  ) : (
-                    TEXT.SIGNUP
-                  )}
-                </Stack>
-              </Button>
-              <Typography className={styles.link}>
-                <Link to={ROUTES.LOGIN}>Already have an account?</Link>
-              </Typography>
-            </div>
-          </form>
-        </FormProvider>
-      </div>
-      <BackgroundLogo />
-    </section>
+    <FormProvider {...registerMethods}>
+      <AuthForm
+        submitBtnText={TEXT.SIGNUP}
+        submitHandler={submitHandler}
+        isPending={isPending}
+      >
+        <InputField
+          dataName="email"
+          label={LABEL.EMAIL_FIELD}
+          type="email"
+          variant={INPUT_FIELD_VARIANTS.OUTLINED}
+          required
+          dataTestId={TEST_ID.EMAIL_FIELD}
+          inputSize="small"
+        />
+        <InputField
+          dataName="password"
+          label={LABEL.PASSWORD_FIELD}
+          type="password"
+          variant={INPUT_FIELD_VARIANTS.OUTLINED}
+          required
+          minPasswordLength={10}
+          dataTestId={TEST_ID.PASSWORD_FIELD}
+          inputSize="small"
+        />
+        <InputField
+          dataName="confirmPassword"
+          label={LABEL.CONFIRM_PASSWORD_FIELD}
+          type="password"
+          variant={INPUT_FIELD_VARIANTS.OUTLINED}
+          required
+          watchedInput="password"
+          dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
+          inputSize="small"
+        />
+      </AuthForm>
+    </FormProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { getValidationRules } from "./inputFieldUtils";
 
@@ -17,6 +17,7 @@ type InputProps = {
   watchedInput?: string;
   minPasswordLength?: number;
   dataTestId: string;
+  inputSize?: "small" | "medium";
 };
 
 export default function InputField({
@@ -28,6 +29,7 @@ export default function InputField({
   watchedInput,
   minPasswordLength,
   dataTestId,
+  inputSize = "medium",
 }: InputProps) {
   const {
     register,
@@ -45,29 +47,20 @@ export default function InputField({
   });
 
   return (
-    <Box
+    <TextField
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 1,
-        marginBottom: "10px",
+        width: "20rem",
         ".MuiFormHelperText-root": { m: 0 },
       }}
-    >
-      <TextField
-        sx={{
-          width: "20rem",
-        }}
-        {...register(dataName, validationRules)}
-        variant={variant}
-        label={label}
-        type={type}
-        error={!!errors[dataName]?.message}
-        placeholder={label}
-        helperText={errors[dataName]?.message as string}
-        inputProps={{ "data-testid": dataTestId }}
-      />
-    </Box>
+      {...register(dataName, validationRules)}
+      variant={variant}
+      label={label}
+      type={type}
+      error={!!errors[dataName]?.message}
+      placeholder={label}
+      helperText={errors[dataName]?.message as string}
+      size={inputSize}
+      inputProps={{ "data-testid": dataTestId }}
+    />
   );
 }

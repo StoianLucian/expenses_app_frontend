@@ -3,6 +3,13 @@ export type LoginData = {
   password: string;
 };
 
+export type RegisterData = {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  roleId?: number;
+};
+
 export type ForgotPasswordData = {
   email: string;
 };
