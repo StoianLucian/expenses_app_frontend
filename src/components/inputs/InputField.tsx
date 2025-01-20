@@ -2,6 +2,7 @@ import { Box, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import {
   getValidationRules,
+  InputTypeEnum,
   isPasswordType,
   renderVisibilityComponent,
 } from "./inputFieldUtils";
@@ -15,7 +16,7 @@ export enum INPUT_FIELD_VARIANTS {
 
 type InputProps = {
   label: string;
-  type: string;
+  type: InputTypeEnum;
   variant: INPUT_FIELD_VARIANTS;
   required?: boolean;
   dataName: string;
@@ -34,13 +35,13 @@ export default function InputField({
   minPasswordLength,
   dataTestId,
 }: InputProps) {
-  const [inputType, setInputType] = useState<string>(type);
+  const [inputType, setInputType] = useState<InputTypeEnum>(type);
   const [visibility, setVisibility] = useState<boolean>(false);
 
-  function toggleVisibility() {
+  const toggleVisibility = () => {
     setVisibility(!visibility);
-    setInputType(visibility ? "password" : "text");
-  }
+    setInputType(visibility ? InputTypeEnum.PASSWORD : InputTypeEnum.TEXT);
+  };
 
   const {
     register,

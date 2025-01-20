@@ -9,8 +9,13 @@ type GetValidationRulesProps = {
   minPasswordLength?: number;
   watchedInput?: string;
   watch: UseFormWatch<FieldValues>;
-  type: string;
+  type: InputTypeEnum;
 };
+
+export enum InputTypeEnum {
+  PASSWORD = "password",
+  TEXT = "text",
+}
 
 export const ERRORS = {
   REQUIRED: (label: string) => `${label} is required`,
@@ -26,7 +31,7 @@ export const ERRORS = {
 };
 
 export const isPasswordType = (type: string) => {
-  return type === "password";
+  return type === InputTypeEnum.PASSWORD;
 };
 
 export const renderVisibilityComponent = (
