@@ -4,9 +4,9 @@ import {
   getValidationRules,
   InputTypeEnum,
   isPasswordType,
-  renderVisibilityComponent,
 } from "./inputFieldUtils";
 import { useState } from "react";
+import PasswordVisibility from "../passwordVisibility/PasswordVisibility";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
@@ -83,9 +83,12 @@ export default function InputField({
         slotProps={{
           input: {
             inputProps: { "data-testid": dataTestId },
-            endAdornment:
-              isPasswordType(type) &&
-              renderVisibilityComponent(visibility, toggleVisibility),
+            endAdornment: isPasswordType(type) && (
+              <PasswordVisibility
+                visibility={visibility}
+                visibilityHandler={toggleVisibility}
+              />
+            ),
           },
         }}
       />

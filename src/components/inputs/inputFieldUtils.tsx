@@ -1,7 +1,4 @@
 import { FieldValues, UseFormWatch } from "react-hook-form";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { InputAdornment, IconButton } from "@mui/material";
-import { TEST_ID } from "./__tests__/testIds";
 
 type GetValidationRulesProps = {
   label: string;
@@ -32,22 +29,6 @@ export const ERRORS = {
 
 export const isPasswordType = (type: string) => {
   return type === InputTypeEnum.PASSWORD;
-};
-
-export const renderVisibilityComponent = (
-  visibility: boolean,
-  visibilityHandler: VoidFunction
-) => {
-  return (
-    <InputAdornment position="end">
-      <IconButton
-        onClick={visibilityHandler}
-        data-testid={TEST_ID.VISIBILITY_BUTTON}
-      >
-        {visibility ? <Visibility /> : <VisibilityOff />}
-      </IconButton>
-    </InputAdornment>
-  );
 };
 
 export const getValidationRules = ({

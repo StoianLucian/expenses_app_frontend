@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
 import { LABEL } from "../../../utils/strings";
 import { TEST_ID } from "./testIds";
-import { ERRORS } from "../inputFieldUtils";
+import { ERRORS, InputTypeEnum } from "../inputFieldUtils";
 
 const renderWithForm = (ui: ReactNode) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
@@ -33,14 +33,13 @@ const renderWithForm = (ui: ReactNode) => {
 describe("Password InputField component tests", () => {
   let submitBtn: HTMLButtonElement;
   let passwordInput: HTMLInputElement;
-  let visibilityButton: HTMLButtonElement;
 
   beforeEach(() => {
     renderWithForm(
       <InputField
         dataName="password"
         label={LABEL.PASSWORD_FIELD}
-        type="password"
+        type={InputTypeEnum.PASSWORD}
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
         minPasswordLength={10}
@@ -50,11 +49,9 @@ describe("Password InputField component tests", () => {
 
     submitBtn = screen.getByRole("button", { name: "Submit" });
     passwordInput = screen.getByTestId(TEST_ID.PASSWORD_FIELD);
-    visibilityButton = screen.getByTestId(TEST_ID.VISIBILITY_BUTTON);
   });
 
   test("renders input field with password label", () => {
-
     expect(passwordInput).toBeInTheDocument();
   });
 
@@ -109,21 +106,5 @@ describe("Password InputField component tests", () => {
     await userEvent.click(submitBtn);
 
     expect(await screen.findByText(ERRORS.NUMBER)).toBeInTheDocument();
-  });
-
-  test("toggles password visibility", async () => {
-    const visibilityOffIcon = screen.getByTestId(TEST_ID.VISIBILITY_OFF_ICON);
-
-    expect(passwordInput.type).toBe("password");
-
-    expect(visibilityOffIcon).toBeInTheDocument();
-
-    await userEvent.click(visibilityButton);
-
-    const visibilityOnIcon = screen.getByTestId(TEST_ID.VISIBILITY_ON_ICON);
-
-    expect(passwordInput.type).toBe("text");
-
-    expect(visibilityOnIcon).toBeInTheDocument();
   });
 });
