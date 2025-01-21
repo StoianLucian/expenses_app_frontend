@@ -3,13 +3,13 @@ import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 import { TEST_ID } from "./testIds";
 
-import PasswordVisibility from "../PasswordVisibilityToggle";
+import PasswordVisibilityToggle from "../PasswordVisibilityToggle";
 import userEvent from "@testing-library/user-event";
 
 describe("Password visibility component", () => {
   test("should render PasswordVisibility component", async () => {
     render(
-      <PasswordVisibility visibility={true} visibilityHandler={vi.fn()} />
+      <PasswordVisibilityToggle visibility={true} visibilityHandler={vi.fn()} />
     );
 
     const visibilityButton = screen.getByTestId(TEST_ID.VISIBILITY_BUTTON);
@@ -18,7 +18,7 @@ describe("Password visibility component", () => {
 
   test("should display VisibilityOn when visibility is set to true ", async () => {
     render(
-      <PasswordVisibility visibility={true} visibilityHandler={vi.fn()} />
+      <PasswordVisibilityToggle visibility={true} visibilityHandler={vi.fn()} />
     );
 
     const visibilityOnIcon = screen.getByTestId(TEST_ID.VISIBILITY_ON_ICON);
@@ -28,7 +28,10 @@ describe("Password visibility component", () => {
 
   test("should display VisibilityOFF when visibility is set to false ", async () => {
     render(
-      <PasswordVisibility visibility={false} visibilityHandler={vi.fn()} />
+      <PasswordVisibilityToggle
+        visibility={false}
+        visibilityHandler={vi.fn()}
+      />
     );
 
     const visibilityOffIcon = screen.getByTestId(TEST_ID.VISIBILITY_OFF_ICON);
@@ -37,7 +40,10 @@ describe("Password visibility component", () => {
 
   test("should display VisibilityOFF when visibility is set to false ", async () => {
     render(
-      <PasswordVisibility visibility={false} visibilityHandler={vi.fn()} />
+      <PasswordVisibilityToggle
+        visibility={false}
+        visibilityHandler={vi.fn()}
+      />
     );
 
     const visibilityOffIcon = screen.getByTestId(TEST_ID.VISIBILITY_OFF_ICON);
@@ -47,7 +53,7 @@ describe("Password visibility component", () => {
   test("should call visibilityHandler", async () => {
     const visibilityHandler = vi.fn();
     const { rerender } = render(
-      <PasswordVisibility
+      <PasswordVisibilityToggle
         visibility={false}
         visibilityHandler={visibilityHandler}
       />
@@ -61,12 +67,13 @@ describe("Password visibility component", () => {
 
     // Rerender the component with updated props
     rerender(
-      <PasswordVisibility
+      <PasswordVisibilityToggle
         visibility={true}
         visibilityHandler={visibilityHandler}
       />
     );
 
+    // Check if visibility on icon is present when visibility is toggled
     const visibilityOnIcon = screen.getByTestId(TEST_ID.VISIBILITY_ON_ICON);
     expect(visibilityOnIcon).toBeInTheDocument();
   });
