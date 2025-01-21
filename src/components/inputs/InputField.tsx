@@ -24,7 +24,6 @@ type InputProps = {
   watchedInput?: string;
   minPasswordLength?: number;
   dataTestId?: string;
-  isEmail?: boolean;
 };
 
 export default function InputField({

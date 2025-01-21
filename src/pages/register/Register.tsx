@@ -52,7 +52,6 @@ export default function Register() {
                 type={InputTypeEnum.EMAIL}
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
-                isEmail
               />
               <InputField
                 dataName="password"

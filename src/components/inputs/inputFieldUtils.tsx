@@ -7,7 +7,6 @@ type GetValidationRulesProps = {
   watchedInput?: string;
   watch: UseFormWatch<FieldValues>;
   type: InputTypeEnum;
-  isEmail?: boolean;
 };
 
 export enum InputTypeEnum {
