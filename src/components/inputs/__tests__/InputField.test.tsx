@@ -117,12 +117,10 @@ describe("Email InputField component tests", () => {
       <InputField
         dataName="password"
         label={LABEL.EMAIL_FIELD}
-        type={InputTypeEnum.TEXT}
+        type={InputTypeEnum.EMAIL}
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
-        minPasswordLength={10}
         dataTestId={TEST_ID.EMAIL_FIELD}
-        isEmail
       />
     );
 
@@ -142,12 +140,12 @@ describe("Email InputField component tests", () => {
     expect(emailInput.value).toBe(email);
   });
 
-  test("shows error message when email si not valid ", async () => {
+  test("shows error message when email is not valid ", async () => {
     const invalidEmail = "testyahoo.com";
 
     await userEvent.type(emailInput, invalidEmail);
     await userEvent.click(submitBtn);
 
-    expect(await screen.findByText("Invalid email format")).toBeInTheDocument();
+    expect(await screen.findByText(ERRORS.INVALID_EMAIL)).toBeInTheDocument();
   });
 });

@@ -49,7 +49,7 @@ export default function Register() {
               <InputField
                 dataName="email"
                 label={LABEL.EMAIL_FIELD}
-                type={InputTypeEnum.TEXT}
+                type={InputTypeEnum.EMAIL}
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 isEmail

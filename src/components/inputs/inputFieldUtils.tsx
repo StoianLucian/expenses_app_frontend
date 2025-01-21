@@ -13,6 +13,7 @@ type GetValidationRulesProps = {
 export enum InputTypeEnum {
   PASSWORD = "password",
   TEXT = "text",
+  EMAIL = "email",
 }
 
 export const ERRORS = {
@@ -29,8 +30,12 @@ export const ERRORS = {
   INVALID_EMAIL: "Invalid email format",
 };
 
-export const isPasswordType = (type: string) => {
+export const isPasswordType = (type: InputTypeEnum) => {
   return type === InputTypeEnum.PASSWORD;
+};
+
+export const isEmailType = (type: InputTypeEnum) => {
+  return type === InputTypeEnum.EMAIL;
 };
 
 export const getValidationRules = ({
@@ -40,7 +45,6 @@ export const getValidationRules = ({
   watchedInput,
   watch,
   type,
-  isEmail,
 }: GetValidationRulesProps) => {
   return {
     required: {
@@ -76,7 +80,7 @@ export const getValidationRules = ({
         }
       }
 
-      if (isEmail && !emailRegex.test(value)) {
+      if (isEmailType(type) && !emailRegex.test(value)) {
         return ERRORS.INVALID_EMAIL;
       }
 
