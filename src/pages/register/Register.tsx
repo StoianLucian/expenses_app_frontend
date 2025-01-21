@@ -7,7 +7,7 @@ import { RegisterData } from "../../types/register";
 import { register } from "../../api/auth/users";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, CircularProgress, Stack, Typography } from "@mui/material";
-import { LABEL, TEST_ID, TEXT } from "../../utils/strings";
+import { LABEL, TEXT } from "../../utils/strings";
 import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
@@ -51,7 +51,6 @@ export default function Register() {
                 type="email"
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
-                dataTestId={TEST_ID.EMAIL_FIELD}
               />
               <InputField
                 dataName="password"
@@ -60,7 +59,6 @@ export default function Register() {
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 minPasswordLength={10}
-                dataTestId={TEST_ID.PASSWORD_FIELD}
               />
               <InputField
                 dataName="confirmPassword"
@@ -69,7 +67,6 @@ export default function Register() {
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 watchedInput="password"
-                dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
               />
               <Button variant="contained" type="submit" data-testid="submitBtn">
                 <Stack sx={{ color: "white" }}>

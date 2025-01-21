@@ -5,7 +5,9 @@ import InputField, { INPUT_FIELD_VARIANTS } from "../InputField";
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
-import { ERRORS, LABEL, TEST_ID } from "../../../utils/strings";
+import { LABEL } from "../../../utils/strings";
+import { TEST_ID } from "./testIds";
+import { ERRORS, InputTypeEnum } from "../inputFieldUtils";
 
 const renderWithForm = (ui: ReactNode) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
@@ -37,7 +39,7 @@ describe("Password InputField component tests", () => {
       <InputField
         dataName="password"
         label={LABEL.PASSWORD_FIELD}
-        type="password"
+        type={InputTypeEnum.PASSWORD}
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
         required
         minPasswordLength={10}
@@ -49,17 +51,16 @@ describe("Password InputField component tests", () => {
     passwordInput = screen.getByTestId(TEST_ID.PASSWORD_FIELD);
   });
 
+  test("renders input field with password label", () => {
+    expect(passwordInput).toBeInTheDocument();
+  });
+
   test("accepts input for password", async () => {
     const password = "TestP@ssword123";
 
     await userEvent.type(passwordInput, password);
 
     expect(passwordInput.value).toBe(password);
-  });
-
-  test("renders input field with password label", () => {
-
-    expect(passwordInput).toBeInTheDocument();
   });
 
   test("shows required error message when field is empty", async () => {
