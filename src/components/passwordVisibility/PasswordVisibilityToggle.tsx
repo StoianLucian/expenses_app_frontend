@@ -2,13 +2,12 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
 import { TEST_ID } from "./__test__/testIds";
 
-export default function 
-PasswordVisibilityToggle({
+export default function PasswordVisibilityToggle({
   visibility,
   visibilityHandler,
 }: {
   visibility: boolean;
-  visibilityHandler: VoidFunction;
+  visibilityHandler: () => void;
 }) {
   return (
     <InputAdornment position="end">
