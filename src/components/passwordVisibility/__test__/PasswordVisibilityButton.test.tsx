@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 import { TEST_ID } from "./testIds";
 
-import PasswordVisibility from "../PasswordVisibilityButton";
+import PasswordVisibility from "../PasswordVisibilityToggle";
 import userEvent from "@testing-library/user-event";
 
 describe("Password visibility component", () => {

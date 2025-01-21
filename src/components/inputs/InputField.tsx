@@ -6,7 +6,7 @@ import {
   isPasswordType,
 } from "./inputFieldUtils";
 import { useState } from "react";
-import PasswordVisibilityButton from "../passwordVisibility/PasswordVisibilityButton";
+import PasswordVisibilityToggle from "../passwordVisibility/PasswordVisibilityToggle";
 
 export enum INPUT_FIELD_VARIANTS {
   FILLED = "filled",
@@ -84,7 +84,7 @@ export default function InputField({
           input: {
             inputProps: { "data-testid": dataTestId },
             endAdornment: isPasswordType(type) && (
-              <PasswordVisibilityButton
+              <PasswordVisibilityToggle
                 visibility={visibility}
                 visibilityHandler={toggleVisibility}
               />
