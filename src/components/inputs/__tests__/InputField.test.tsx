@@ -115,7 +115,7 @@ describe("Email InputField component tests", () => {
   beforeEach(() => {
     renderWithForm(
       <InputField
-        dataName="password"
+        dataName="email"
         label={LABEL.EMAIL_FIELD}
         type={InputTypeEnum.EMAIL}
         variant={INPUT_FIELD_VARIANTS.OUTLINED}
