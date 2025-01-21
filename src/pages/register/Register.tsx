@@ -12,6 +12,7 @@ import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
+import { InputTypeEnum } from "../../components/inputs/inputFieldUtils";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -48,14 +49,15 @@ export default function Register() {
               <InputField
                 dataName="email"
                 label={LABEL.EMAIL_FIELD}
-                type="email"
+                type={InputTypeEnum.TEXT}
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
+                isEmail
               />
               <InputField
                 dataName="password"
                 label={LABEL.PASSWORD_FIELD}
-                type="password"
+                type={InputTypeEnum.PASSWORD}
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 minPasswordLength={10}
@@ -63,7 +65,7 @@ export default function Register() {
               <InputField
                 dataName="confirmPassword"
                 label={LABEL.CONFIRM_PASSWORD_FIELD}
-                type="password"
+                type={InputTypeEnum.PASSWORD}
                 variant={INPUT_FIELD_VARIANTS.OUTLINED}
                 required
                 watchedInput="password"

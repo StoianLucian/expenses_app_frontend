@@ -7,6 +7,7 @@ type GetValidationRulesProps = {
   watchedInput?: string;
   watch: UseFormWatch<FieldValues>;
   type: InputTypeEnum;
+  isEmail?: boolean;
 };
 
 export enum InputTypeEnum {
@@ -25,6 +26,7 @@ export const ERRORS = {
   LOWERCASE: "Password must contain at least one lower case character",
   UPPERCASE: "Password must contain at least one upper case character",
   NUMBER: "Password must contain at least one number",
+  INVALID_EMAIL: "Invalid email format",
 };
 
 export const isPasswordType = (type: string) => {
@@ -38,6 +40,7 @@ export const getValidationRules = ({
   watchedInput,
   watch,
   type,
+  isEmail,
 }: GetValidationRulesProps) => {
   return {
     required: {
@@ -56,8 +59,9 @@ export const getValidationRules = ({
       const lowerCaseRegex = /[a-z]/;
       const upperCaseRegex = /[A-Z]/;
       const numbersRegex = /[0-9]/;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-      if (type === "password") {
+      if (isPasswordType(type)) {
         const validations = [
           { regex: specialCharRegex, error: ERRORS.SPECIAL_CHARACTER },
           { regex: lowerCaseRegex, error: ERRORS.LOWERCASE },
@@ -70,6 +74,10 @@ export const getValidationRules = ({
             return error;
           }
         }
+      }
+
+      if (isEmail && !emailRegex.test(value)) {
+        return ERRORS.INVALID_EMAIL;
       }
 
       if (value.length === 0 && required) {

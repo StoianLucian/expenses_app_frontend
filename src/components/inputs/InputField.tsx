@@ -23,6 +23,7 @@ type InputProps = {
   watchedInput?: string;
   minPasswordLength?: number;
   dataTestId?: string;
+  isEmail?: boolean;
 };
 
 export default function InputField({
@@ -34,6 +35,7 @@ export default function InputField({
   watchedInput,
   minPasswordLength,
   dataTestId,
+  isEmail,
 }: InputProps) {
   const [inputType, setInputType] = useState<InputTypeEnum>(type);
   const [visibility, setVisibility] = useState<boolean>(false);
@@ -56,6 +58,7 @@ export default function InputField({
     watchedInput,
     watch,
     type,
+    isEmail
   });
 
   return (
