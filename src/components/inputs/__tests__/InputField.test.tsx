@@ -108,3 +108,44 @@ describe("Password InputField component tests", () => {
     expect(await screen.findByText(ERRORS.NUMBER)).toBeInTheDocument();
   });
 });
+
+describe("Email InputField component tests", () => {
+  let submitBtn: HTMLButtonElement;
+  let emailInput: HTMLInputElement;
+  beforeEach(() => {
+    renderWithForm(
+      <InputField
+        dataName="email"
+        label={LABEL.EMAIL_FIELD}
+        type={InputTypeEnum.EMAIL}
+        variant={INPUT_FIELD_VARIANTS.OUTLINED}
+        required
+        dataTestId={TEST_ID.EMAIL_FIELD}
+      />
+    );
+
+    submitBtn = screen.getByRole("button", { name: "Submit" });
+    emailInput = screen.getByTestId(TEST_ID.EMAIL_FIELD);
+  });
+
+  test("renders input field with email label", async () => {
+    expect(emailInput).toBeInTheDocument();
+  });
+
+  test("accepts input for email", async () => {
+    const email = "test@yahoo.com";
+
+    await userEvent.type(emailInput, email);
+
+    expect(emailInput.value).toBe(email);
+  });
+
+  test("shows error message when email is not valid ", async () => {
+    const invalidEmail = "testyahoo.com";
+
+    await userEvent.type(emailInput, invalidEmail);
+    await userEvent.click(submitBtn);
+
+    expect(await screen.findByText(ERRORS.INVALID_EMAIL)).toBeInTheDocument();
+  });
+});

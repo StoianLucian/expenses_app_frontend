@@ -3,9 +3,10 @@ import { useFormContext } from "react-hook-form";
 import {
   getValidationRules,
   InputTypeEnum,
+  isEmailType,
   isPasswordType,
 } from "./inputFieldUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PasswordVisibilityToggle from "../passwordVisibility/PasswordVisibilityToggle";
 
 export enum INPUT_FIELD_VARIANTS {
@@ -48,6 +49,12 @@ export default function InputField({
     formState: { errors },
     watch,
   } = useFormContext();
+
+  useEffect(() => {
+    if (isEmailType(type)) {
+      setInputType(InputTypeEnum.TEXT);
+    }
+  }, [type]);
 
   const validationRules = getValidationRules({
     label,
