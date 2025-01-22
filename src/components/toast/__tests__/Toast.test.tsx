@@ -8,6 +8,7 @@ const delay = 1000;
 const mockCloseHandler = vi.fn();
 
 describe("Toast component tests", () => {
+
   test("renders toast component when isOpen is set true", async () => {
     render(
       <Toast
@@ -35,6 +36,7 @@ describe("Toast component tests", () => {
 
     expect(screen.queryByText("Test Message")).not.toBeInTheDocument();
   });
+
   test("calls closeHandler after the timer expires", async () => {
     vi.useFakeTimers();
 
@@ -63,8 +65,10 @@ describe("Toast component tests", () => {
         message={toastMessage}
       />
     );
+
     const closeButton = screen.getByTestId("CloseIcon");
     userEvent.click(closeButton);
+
     expect(mockCloseHandler).toHaveBeenCalled();
   });
 });
