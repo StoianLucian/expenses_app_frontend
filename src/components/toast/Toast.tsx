@@ -1,23 +1,23 @@
 import { Snackbar, Alert } from "@mui/material";
 
-export enum toastSeverity {
+export enum ToastSeverity {
   ERROR = "error",
   INFO = "info",
   SUCCESS = "success",
   WARNING = "warning",
 }
 
-export enum toastVariant {
+export enum ToastVariant {
   FILLED = "filled",
   OUTLINED = "outlined",
   STANDARD = "standard",
 }
 
-type toastProps = {
+type ToastProps = {
   isOpen: boolean;
   closeHandler: () => void;
-  severity: toastSeverity | undefined;
-  variant: toastVariant | undefined;
+  severity: ToastSeverity | undefined;
+  variant: ToastVariant | undefined;
   message: string;
   closeDelay?: number;
 };
@@ -29,7 +29,7 @@ export default function Toast({
   variant,
   message,
   closeDelay = 3000,
-}: toastProps) {
+}: ToastProps) {
   return (
     <Snackbar
       open={isOpen}

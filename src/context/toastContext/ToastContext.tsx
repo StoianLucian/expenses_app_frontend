@@ -1,23 +1,23 @@
 import { SnackbarCloseReason } from "@mui/material";
 import { createContext, ReactNode, useContext, useState } from "react";
 import Toast, {
-  toastSeverity,
-  toastVariant,
+  ToastSeverity,
+  ToastVariant,
 } from "../../components/toast/Toast";
 
 type ToastContextType = {
   toastHandler: (
-    variant: toastVariant,
-    severity: toastSeverity,
+    variant: ToastVariant,
+    severity: ToastSeverity,
     message: string
   ) => void;
 };
 
-type toastType = {
+type ToastType = {
   open: boolean;
   message: string;
-  severity: toastSeverity | undefined;
-  variant: toastVariant | undefined;
+  severity: ToastSeverity | undefined;
+  variant: ToastVariant | undefined;
 };
 
 export const ToastContext = createContext<ToastContextType | undefined>(
@@ -25,7 +25,7 @@ export const ToastContext = createContext<ToastContextType | undefined>(
 );
 
 export const ToastContextProvider = ({ children }: { children: ReactNode }) => {
-  const [toast, setToast] = useState<toastType>({
+  const [toast, setToast] = useState<ToastType>({
     open: false,
     message: "",
     severity: undefined,
@@ -33,8 +33,8 @@ export const ToastContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const toastHandler = (
-    variant: toastVariant,
-    severity: toastSeverity,
+    variant: ToastVariant,
+    severity: ToastSeverity,
     message: string
   ) => {
     setToast({
