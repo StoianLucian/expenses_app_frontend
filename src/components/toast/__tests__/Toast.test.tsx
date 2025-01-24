@@ -12,8 +12,8 @@ describe("Toast component tests", () => {
     render(
       <Toast
         isOpen={true}
-        variant={ToastVariant.FILLED}
-        severity={ToastSeverity.INFO}
+        variant={undefined}
+        severity={undefined}
         closeHandler={mockCloseHandler}
         message={toastMessage}
       />
@@ -33,7 +33,7 @@ describe("Toast component tests", () => {
       />
     );
 
-    expect(screen.queryByText("Test Message")).not.toBeInTheDocument();
+    expect(screen.queryByText(toastMessage)).not.toBeInTheDocument();
   });
 
   test("calls closeHandler after the timer expires", () => {
