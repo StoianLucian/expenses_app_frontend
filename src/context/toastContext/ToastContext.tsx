@@ -5,19 +5,21 @@ import Toast, {
   ToastVariant,
 } from "../../components/toast/Toast";
 
+type ToastHandelerParams = {
+  message: string;
+  variant?: ToastVariant;
+  severity?: ToastSeverity;
+};
+
 type ToastContextType = {
-  toastHandler: (
-    variant: ToastVariant,
-    severity: ToastSeverity,
-    message: string
-  ) => void;
+  toastHandler: ({ message, variant, severity }: ToastHandelerParams) => void;
 };
 
 type ToastType = {
   open: boolean;
   message: string;
-  severity: ToastSeverity | undefined;
-  variant: ToastVariant | undefined;
+  severity: ToastSeverity;
+  variant: ToastVariant;
 };
 
 export const ToastContext = createContext<ToastContextType | undefined>(
@@ -28,20 +30,20 @@ export const ToastContextProvider = ({ children }: { children: ReactNode }) => {
   const [toast, setToast] = useState<ToastType>({
     open: false,
     message: "",
-    severity: undefined,
-    variant: undefined,
+    severity: ToastSeverity.INFO,
+    variant: ToastVariant.FILLED,
   });
 
-  const toastHandler = (
-    variant: ToastVariant,
-    severity: ToastSeverity,
-    message: string
-  ) => {
+  const toastHandler = ({
+    message,
+    variant = ToastVariant.FILLED,
+    severity = ToastSeverity.INFO,
+  }: ToastHandelerParams) => {
     setToast({
       open: true,
+      message,
       variant,
       severity,
-      message,
     });
   };
 

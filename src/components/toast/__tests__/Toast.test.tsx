@@ -1,5 +1,5 @@
-import { act, render, screen } from "@testing-library/react";
-import Toast from "../Toast";
+import { render, screen } from "@testing-library/react";
+import Toast, { ToastSeverity, ToastVariant } from "../Toast";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 
@@ -8,13 +8,12 @@ const delay = 1000;
 const mockCloseHandler = vi.fn();
 
 describe("Toast component tests", () => {
-
-  test("renders toast component when isOpen is set true", async () => {
+  test("renders toast component when isOpen is set true", () => {
     render(
       <Toast
         isOpen={true}
-        variant={undefined}
-        severity={undefined}
+        variant={ToastVariant.FILLED}
+        severity={ToastSeverity.INFO}
         closeHandler={mockCloseHandler}
         message={toastMessage}
       />
@@ -37,7 +36,7 @@ describe("Toast component tests", () => {
     expect(screen.queryByText("Test Message")).not.toBeInTheDocument();
   });
 
-  test("calls closeHandler after the timer expires", async () => {
+  test("calls closeHandler after the timer expires", () => {
     vi.useFakeTimers();
 
     render(
