@@ -1,9 +1,6 @@
 import { SnackbarCloseReason } from "@mui/material";
 import { createContext, ReactNode, useContext, useState } from "react";
-import Toast, {
-  ToastSeverity,
-  ToastVariant,
-} from "../../components/toast/Toast";
+import Toast, { ToastSeverity, ToastVariant } from "../../components/toast/Toast";
 
 type ToastHandelerParams = {
   message: string;
