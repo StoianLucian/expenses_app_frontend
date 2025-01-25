@@ -16,18 +16,18 @@ export enum ToastVariant {
 type ToastProps = {
   isOpen: boolean;
   closeHandler: () => void;
+  message: string;
   severity?: ToastSeverity;
   variant?: ToastVariant;
-  message: string;
   closeDelay?: number;
 };
 
 export default function Toast({
   isOpen,
   closeHandler,
+  message,
   severity = ToastSeverity.INFO,
   variant = ToastVariant.FILLED,
-  message,
   closeDelay = 3000,
 }: ToastProps) {
   return (

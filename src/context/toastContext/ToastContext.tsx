@@ -39,6 +39,7 @@ export const ToastContextProvider = ({ children }: { children: ReactNode }) => {
     variant = ToastVariant.FILLED,
     severity = ToastSeverity.INFO,
   }: ToastHandelerParams) => {
+
     setToast({
       open: true,
       message,

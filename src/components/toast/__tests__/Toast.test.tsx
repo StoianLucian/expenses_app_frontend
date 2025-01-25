@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Toast, { ToastSeverity, ToastVariant } from "../Toast";
+import Toast from "../Toast";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 
@@ -12,8 +12,6 @@ describe("Toast component tests", () => {
     render(
       <Toast
         isOpen={true}
-        variant={undefined}
-        severity={undefined}
         closeHandler={mockCloseHandler}
         message={toastMessage}
       />
@@ -27,8 +25,6 @@ describe("Toast component tests", () => {
       <Toast
         isOpen={false}
         closeHandler={mockCloseHandler}
-        severity={undefined}
-        variant={undefined}
         message={toastMessage}
       />
     );
@@ -42,8 +38,6 @@ describe("Toast component tests", () => {
     render(
       <Toast
         isOpen={true}
-        variant={undefined}
-        severity={undefined}
         closeHandler={mockCloseHandler}
         message={toastMessage}
         closeDelay={delay}
@@ -59,8 +53,6 @@ describe("Toast component tests", () => {
       <Toast
         isOpen={true}
         closeHandler={mockCloseHandler}
-        severity={undefined}
-        variant={undefined}
         message={toastMessage}
       />
     );
