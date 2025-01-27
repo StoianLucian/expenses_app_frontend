@@ -1,4 +1,4 @@
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import {
   getValidationRules,
@@ -15,6 +15,11 @@ export enum INPUT_FIELD_VARIANTS {
   STANDARD = "standard",
 }
 
+export enum INPUT_FIELD_SIZE {
+  MEDIUM = "medium",
+  SMALL = "small",
+}
+
 type InputProps = {
   label: string;
   type: InputTypeEnum;
@@ -24,6 +29,9 @@ type InputProps = {
   watchedInput?: string;
   minPasswordLength?: number;
   dataTestId?: string;
+  inputSize?: INPUT_FIELD_SIZE;
+  error?: string;
+  onChangeHandler?: (email: string) => void;
 };
 
 export default function InputField({
@@ -35,6 +43,9 @@ export default function InputField({
   watchedInput,
   minPasswordLength,
   dataTestId,
+  inputSize = INPUT_FIELD_SIZE.SMALL,
+  error,
+  onChangeHandler,
 }: InputProps) {
   const [inputType, setInputType] = useState<InputTypeEnum>(type);
   const [visibility, setVisibility] = useState<boolean>(false);
@@ -66,27 +77,31 @@ export default function InputField({
   });
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 1,
-        marginBottom: "10px",
-        ".MuiFormHelperText-root": { m: 0 },
-      }}
-    >
+    <>
       <TextField
         sx={{
-          width: "20rem",
+          maxWidth: "20rem",
+          minWidth: "15rem",
+          width: "35vw",
+          ".MuiFormHelperText-root": { m: 0 },
         }}
         {...register(dataName, validationRules)}
         variant={variant}
         label={label}
         type={inputType}
-        error={!!errors[dataName]?.message}
+        error={!!errors[dataName]?.message || !!error}
         placeholder={label}
-        helperText={errors[dataName]?.message as string}
+        helperText={(errors[dataName]?.message as string) || error}
+        size={inputSize}
+        onChange={(e) => {
+          if (onChangeHandler) {
+            onChangeHandler(e.target.value);
+          }
+
+          const { onChange } = register(dataName, validationRules);
+          // Call react-hook-form's onChange handler to keep default behaviour
+          onChange(e);
+        }}
         slotProps={{
           input: {
             inputProps: { "data-testid": dataTestId },
@@ -99,6 +114,6 @@ export default function InputField({
           },
         }}
       />
-    </Box>
+    </>
   );
 }
