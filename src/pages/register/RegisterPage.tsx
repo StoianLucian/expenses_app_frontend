@@ -15,25 +15,27 @@ import { dataName } from "./types/types";
 import { UseToastContext } from "../../context/toastContext/ToastContext";
 import { ToastSeverity } from "../../components/toast/Toast";
 import { useState } from "react";
-import { checkEmail } from "./validations/validations";
+
+type Errors = {
+  email?: string;
+  password?: string;
+};
+
+type RegisterBadRequest = {
+  error: string;
+  errors: Errors[];
+  statusCode: string;
+  message?: string;
+};
 
 export default function RegisterPage() {
-  const [error, setError] = useState({ isError: false, message: "" });
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState<Errors>({});
   const navigate = useNavigate();
   const registerMethods = useForm<RegisterData>();
   const { toastHandler } = UseToastContext();
 
-  const submitForm = async (data: RegisterData) => {
-    if (error.isError === true) {
-      return; // Stop execution if there's an error
-    } else {
-      return await register(data);
-    }
-  };
-
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: RegisterData) => await submitForm(data),
+    mutationFn: async (data: RegisterData) => await register(data),
     onSuccess: (_success) => {
       toastHandler({
         message: _success.message,
@@ -41,28 +43,23 @@ export default function RegisterPage() {
       });
       navigate(ROUTES.LOGIN);
     },
-    onError: async (_fail) => {
+    onError: async (_fail: RegisterBadRequest) => {
       toastHandler({
-        message: _fail.message,
+        message: _fail.message || _fail.statusCode, //need to work on backend to format the erros
         severity: ToastSeverity.ERROR,
       });
-      setError({ isError: true, message: _fail.message });
+
+      _fail.errors.forEach((error) => {
+        setError((prevState: Errors) => ({
+          ...prevState,
+          ...error,
+        }));
+      });
     },
   });
 
-  const checkUniqueUser = async (email: string) => {
-    const validation = await checkEmail(email);
-
-    if (validation.error == true) {
-      setError({ isError: true, message: validation.message });
-      setIsDisabled(true);
-    } else {
-      setError({ isError: false, message: "" });
-      setIsDisabled(false);
-    }
-  };
-
   function submitHandler(data: RegisterData) {
+    setError({});
     mutate(data);
   }
 
@@ -72,7 +69,6 @@ export default function RegisterPage() {
         submitBtnText={TEXT.SIGNUP}
         submitHandler={submitHandler}
         isPending={isPending}
-        isDisabled={isDisabled}
       >
         <InputField
           dataName={dataName.EMAIL}
@@ -80,9 +76,8 @@ export default function RegisterPage() {
           type={InputTypeEnum.EMAIL}
           variant={INPUT_FIELD_VARIANTS.OUTLINED}
           required
-          error={error.message}
+          error={error.email}
           dataTestId={TEST_ID.EMAIL_FIELD}
-          onChangeHandler={checkUniqueUser}
         />
         <InputField
           dataName={dataName.PASSWORD}
@@ -90,6 +85,7 @@ export default function RegisterPage() {
           type={InputTypeEnum.PASSWORD}
           variant={INPUT_FIELD_VARIANTS.OUTLINED}
           required
+          error={error.password}
           minPasswordLength={10}
           dataTestId={TEST_ID.PASSWORD_FIELD}
         />

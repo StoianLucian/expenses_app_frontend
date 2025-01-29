@@ -31,7 +31,6 @@ type InputProps = {
   dataTestId?: string;
   inputSize?: INPUT_FIELD_SIZE;
   error?: string;
-  onChangeHandler?: (email: string) => void;
 };
 
 export default function InputField({
@@ -45,7 +44,6 @@ export default function InputField({
   dataTestId,
   inputSize = INPUT_FIELD_SIZE.SMALL,
   error,
-  onChangeHandler,
 }: InputProps) {
   const [inputType, setInputType] = useState<InputTypeEnum>(type);
   const [visibility, setVisibility] = useState<boolean>(false);
@@ -93,15 +91,6 @@ export default function InputField({
         placeholder={label}
         helperText={(errors[dataName]?.message as string) || error}
         size={inputSize}
-        onChange={(e) => {
-          if (onChangeHandler) {
-            onChangeHandler(e.target.value);
-          }
-
-          const { onChange } = register(dataName, validationRules);
-          // Call react-hook-form's onChange handler to keep default behaviour
-          onChange(e);
-        }}
         slotProps={{
           input: {
             inputProps: { "data-testid": dataTestId },

@@ -11,7 +11,6 @@ type AuthFormProps = {
   submitHandler: (data: any) => void;
   submitBtnText: string;
   isPending: boolean;
-  isDisabled: boolean;
 };
 
 export const btnTestId = "submitBtn";
@@ -21,7 +20,6 @@ export default function AuthForm({
   submitHandler,
   submitBtnText,
   isPending,
-  isDisabled,
 }: AuthFormProps) {
   const { handleSubmit } = useFormContext<
     RegisterData | LoginData | ForgotPasswordData
@@ -63,7 +61,7 @@ export default function AuthForm({
             }}
           >
             {children}
-            <Button variant="contained" type="submit" disabled={isDisabled}>
+            <Button variant="contained" type="submit">
               <Stack sx={{ color: "white" }}>
                 {isPending ? (
                   <CircularProgress size="30px" color="inherit" />
