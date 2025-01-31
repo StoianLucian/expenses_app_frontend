@@ -19,6 +19,7 @@ import { useState } from "react";
 type Errors = {
   email?: string;
   password?: string;
+  confirmPassword?: string;
 };
 
 type RegisterBadRequest = {
@@ -45,7 +46,7 @@ export default function RegisterPage() {
     },
     onError: async (_fail: RegisterBadRequest) => {
       toastHandler({
-        message: _fail.message || _fail.statusCode, //need to work on backend to format the erros
+        message:_fail.statusCode,
         severity: ToastSeverity.ERROR,
       });
 
@@ -95,6 +96,7 @@ export default function RegisterPage() {
           type={InputTypeEnum.PASSWORD}
           variant={INPUT_FIELD_VARIANTS.OUTLINED}
           required
+          error={error.confirmPassword}
           watchedInput={dataName.PASSWORD}
           dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
         />
