@@ -6,3 +6,9 @@
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
 }
+
+@media screen and (max-width: 500px) {
+  .logoContainer {
+    display: none;
+  }
+}

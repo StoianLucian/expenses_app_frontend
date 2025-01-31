@@ -4,7 +4,6 @@ import { useFormContext } from "react-hook-form";
 import Form from "../form/Form";
 import { ReactNode } from "react";
 import { AuthData } from "../../types/auth";
-import { UseWidth } from "../../customHooks/UseWidth";
 
 type AuthFormProps<T extends AuthData> = {
   children: ReactNode;
@@ -22,8 +21,6 @@ export default function AuthForm<T extends AuthData>({
   isPending,
 }: AuthFormProps<T>) {
   const { handleSubmit } = useFormContext<AuthData>();
-
-  const { isMobile } = UseWidth();
 
   return (
     <Container
@@ -57,7 +54,11 @@ export default function AuthForm<T extends AuthData>({
             }}
           >
             {children}
-            <Button variant="contained" type="submit" data-testid={submitBtnTestId}>
+            <Button
+              variant="contained"
+              type="submit"
+              data-testid={submitBtnTestId}
+            >
               <Stack sx={{ color: "white" }}>
                 {isPending ? (
                   <CircularProgress size="30px" color="inherit" />
@@ -68,7 +69,9 @@ export default function AuthForm<T extends AuthData>({
             </Button>
           </Form>
         </Stack>
-        <Stack>{!isMobile() && <BackgroundLogo />}</Stack>
+        <Stack>
+          <BackgroundLogo />
+        </Stack>
       </Box>
     </Container>
   );
