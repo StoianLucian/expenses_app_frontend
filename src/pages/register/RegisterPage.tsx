@@ -46,7 +46,7 @@ export default function RegisterPage() {
     },
     onError: async (_fail: RegisterBadRequest) => {
       toastHandler({
-        message:_fail.statusCode,
+        message: _fail.statusCode,
         severity: ToastSeverity.ERROR,
       });
 

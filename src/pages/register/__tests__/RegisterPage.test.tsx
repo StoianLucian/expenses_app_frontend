@@ -1,16 +1,11 @@
-import { act, render, screen } from "@testing-library/react";
-import { ReactNode } from "react";
-import { BrowserRouter } from "react-router-dom";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation,
-} from "@tanstack/react-query";
+import { screen } from "@testing-library/react";
+import { useMutation } from "@tanstack/react-query";
 import { TEST_ID } from "../../../components/inputs/__tests__/testIds";
 import { vi, Mock } from "vitest";
-import { ToastContextProvider } from "../../../context/toastContext/ToastContext";
 import RegisterPage from "../RegisterPage";
 import userEvent from "@testing-library/user-event";
+import { RenderWithWrapper } from "./utils";
+import { submitBtnTestId } from "../../../components/authForm/AuthForm";
 
 // import the package so we can mock the UseMutation function
 vi.mock("@tanstack/react-query", async () => {
@@ -20,21 +15,6 @@ vi.mock("@tanstack/react-query", async () => {
     useMutation: vi.fn(), // Mock only `useMutation`
   };
 });
-
-const RenderWithWrapper = (ui: ReactNode) => {
-  const Wrapper = ({ children }: { children: ReactNode }) => {
-    const queryClient = new QueryClient();
-    return (
-      <ToastContextProvider>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>{children}</BrowserRouter>
-        </QueryClientProvider>
-      </ToastContextProvider>
-    );
-  };
-
-  return render(ui, { wrapper: Wrapper });
-};
 
 describe("Register page tests", () => {
   let emailInput: HTMLInputElement;
@@ -56,7 +36,7 @@ describe("Register page tests", () => {
     emailInput = screen.getByTestId(TEST_ID.EMAIL_FIELD);
     passwordInput = screen.getByTestId(TEST_ID.PASSWORD_FIELD);
     confirmPasswordInput = screen.getByTestId(TEST_ID.CONFIRM_PASSWORD_FIELD);
-    submitButton = screen.getByRole("button", { name: "Sign up" });
+    submitButton = screen.getByTestId(submitBtnTestId);
   });
 
   test("Render register page", async () => {

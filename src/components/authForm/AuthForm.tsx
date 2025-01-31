@@ -3,27 +3,25 @@ import BackgroundLogo from "../backgroundLogo/BackgroundLogo";
 import { useFormContext } from "react-hook-form";
 import Form from "../form/Form";
 import { ReactNode } from "react";
-import { ForgotPasswordData, LoginData, RegisterData } from "../../types/auth";
+import { AuthData } from "../../types/auth";
 import { UseWidth } from "../../customHooks/UseWidth";
 
-type AuthFormProps = {
+type AuthFormProps<T extends AuthData> = {
   children: ReactNode;
-  submitHandler: (data: any) => void;
+  submitHandler: (data: T) => void;
   submitBtnText: string;
   isPending: boolean;
 };
 
-export const btnTestId = "submitBtn";
+export const submitBtnTestId = "submitBtn";
 
-export default function AuthForm({
+export default function AuthForm<T extends AuthData>({
   children,
   submitHandler,
   submitBtnText,
   isPending,
-}: AuthFormProps) {
-  const { handleSubmit } = useFormContext<
-    RegisterData | LoginData | ForgotPasswordData
-  >();
+}: AuthFormProps<T>) {
+  const { handleSubmit } = useFormContext<AuthData>();
 
   const { isMobile } = UseWidth();
 
@@ -48,11 +46,9 @@ export default function AuthForm({
       >
         <Stack>
           <Form
-            submitHandler={handleSubmit(
-              (data: RegisterData | LoginData | ForgotPasswordData) => {
-                submitHandler(data);
-              }
-            )}
+            submitHandler={handleSubmit((data: AuthData) => {
+              submitHandler(data as T);
+            })}
             styles={{
               display: "flex",
               flexDirection: "column",
@@ -61,7 +57,7 @@ export default function AuthForm({
             }}
           >
             {children}
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" data-testid={submitBtnTestId}>
               <Stack sx={{ color: "white" }}>
                 {isPending ? (
                   <CircularProgress size="30px" color="inherit" />

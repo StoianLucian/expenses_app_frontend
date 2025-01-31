@@ -12,3 +12,5 @@ export type RegisterData = {
   password: string;
   confirmPassword: string;
 };
+
+export type AuthData = RegisterData | LoginData | ForgotPasswordData;
