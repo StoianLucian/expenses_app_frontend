@@ -1,8 +1,14 @@
 .logoContainer {
-  width: 60vw;
-  height: 100vh;
+  height: 16rem;
+  width: 32vw;
   background-image: url("../../assets/images/expenses-cover.png");
   background-size: cover; /* Adjusts the image to cover the container */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+
+@media screen and (max-width: 500px) {
+  .logoContainer {
+    display: none;
+  }
 }

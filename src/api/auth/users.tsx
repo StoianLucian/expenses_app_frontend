@@ -1,13 +1,12 @@
 import axios from "axios";
-import { RegisterData } from "../../types/register";
 import { BASE_URL } from "./commons";
-import { ForgotPasswordData } from "../../types/auth";
+import { ForgotPasswordData, RegisterData } from "../../types/auth";
 
 async function register(data: RegisterData) {
   try {
     const response = await axios.post(`${BASE_URL}/users`, data);
 
-    return response;
+    return response.data;
   } catch (error: any) {
     throw error.response?.data || "An unexpected error occurred";
   }
