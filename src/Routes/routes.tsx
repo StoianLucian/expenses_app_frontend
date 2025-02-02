@@ -3,7 +3,7 @@ import ForgotPasswordForm from "../pages/forgotPasswordForm/ForgotPasswordForm";
 import HomePage from "../pages/home/Home";
 import Login from "../pages/login/Login";
 import NotFound from "../pages/notFound/NotFound";
-import Register from "../pages/register/Register";
+import RegisterPage from "../pages/register/RegisterPage";
 
 type PathsType = {
   path: string;
@@ -25,7 +25,7 @@ export const unprotectedPaths: PathsType[] = [
   },
   {
     path: ROUTES.REGISTER,
-    component: <Register />,
+    component: <RegisterPage />,
   },
   {
     path: ROUTES.FORGOT_PASSWORD,
