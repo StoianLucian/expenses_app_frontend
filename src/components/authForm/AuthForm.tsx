@@ -5,21 +5,21 @@ import Form from "../form/Form";
 import { ReactNode } from "react";
 import { AuthData } from "../../types/auth";
 
-type AuthFormProps<T extends AuthData> = {
+type AuthFormProps = {
   children: ReactNode;
-  submitHandler: (data: T) => void;
+  submitHandler: (data: AuthData) => void;
   submitBtnText: string;
   isPending: boolean;
 };
 
 export const submitBtnTestId = "submitBtn";
 
-export default function AuthForm<T extends AuthData>({
+export default function AuthForm({
   children,
   submitHandler,
   submitBtnText,
   isPending,
-}: AuthFormProps<T>) {
+}: AuthFormProps) {
   const { handleSubmit } = useFormContext<AuthData>();
 
   return (
@@ -44,7 +44,7 @@ export default function AuthForm<T extends AuthData>({
         <Stack>
           <Form
             submitHandler={handleSubmit((data: AuthData) => {
-              submitHandler(data as T);
+              submitHandler(data);
             })}
             styles={{
               display: "flex",

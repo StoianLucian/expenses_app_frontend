@@ -68,7 +68,7 @@ export default function RegisterPage() {
     <FormProvider {...registerMethods}>
       <AuthForm
         submitBtnText={TEXT.SIGNUP}
-        submitHandler={submitHandler}
+        submitHandler={() => submitHandler}
         isPending={isPending}
       >
         <InputField
