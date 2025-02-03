@@ -1,66 +1,73 @@
-import { Link } from "react-router-dom";
-import BackgroundLogo from "../../components/backgroundLogo/BackgroundLogo";
-import Logo from "../../components/logo/Logo";
-import styles from "./ForgotPassword.module.scss";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { sendForgotPasswordEmail } from "../../api/auth/users";
-import Error from "../../components/error/Error";
+import AuthForm from "../../components/authForm/AuthForm";
+import InputField, {
+  INPUT_FIELD_VARIANTS,
+} from "../../components/inputs/InputField";
+import { InputTypeEnum } from "../../components/inputs/inputFieldUtils";
+import { LABEL, TEXT } from "../../utils/strings";
+import { dataName } from "../register/types/types";
+import { TEST_ID } from "../../components/inputs/__tests__/testIds";
+import { AuthData, ForgotPasswordData } from "../../types/auth";
+import { useState } from "react";
+import { UseToastContext } from "../../context/toastContext/ToastContext";
+import { ToastSeverity } from "../../components/toast/Toast";
 
-type FormData = {
-  email: string;
+type Errors = {
+  email?: string;
+};
+
+type ForgotPasswordBadRequest = {
+  error: string;
+  errors: Errors[];
+  statusCode: string;
+  message?: string;
 };
 
 export default function ForgotPassword() {
-  const formMethods = useForm<FormData>();
+  const [error, setError] = useState<Errors>({});
 
-  const {
-    formState: { errors },
-    handleSubmit,
-  } = formMethods;
+  const { toastHandler } = UseToastContext();
 
-  const { mutate, error } = useMutation({
-    mutationFn: (data: any) => sendForgotPasswordEmail(data),
-    onSuccess: (success) => {
-      console.log(success);
+  const forgotPasswordMethods = useForm<ForgotPasswordData>();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: ForgotPasswordData) => sendForgotPasswordEmail(data),
+    onSuccess: (success: any) => {
+      toastHandler({
+        message: success.message,
+        severity: ToastSeverity.SUCCESS,
+      });
     },
-    onError: async (fail) => {
-      console.log(fail);
+    onError: async (fail: ForgotPasswordBadRequest) => {
+      fail.errors.forEach((error) => {
+        setError((prevState: Errors) => ({ ...prevState, ...error }));
+      });
     },
   });
 
-  function submitHandler(data: FormData) {
-    mutate(data);
+  function submitHandler(data: AuthData) {
+    mutate(data as ForgotPasswordData);
   }
 
   return (
-    <section className={styles.container}>
-      <div className={styles.loginContainer}>
-        <FormProvider {...formMethods}>
-          <form onSubmit={handleSubmit(submitHandler)}>
-            <Logo />
-            <div className={styles.inputsContainer}>
-              <h2 className={styles.title}>Welcome to our expenses app</h2>
-              <input
-                {...formMethods.register("email", {
-                  required: { value: true, message: "email field is required" },
-                })}
-                className={styles.input}
-                placeholder="email address"
-                type="email"
-              />
-              <Error errorMessage={errors.email?.message} />
-              <button className={styles.button}>Send email</button>
-              <Error errorMessage={error?.message} />
-              <div className={styles.link}>
-                <Link to={"/login"}>Already have an account?</Link>
-              </div>
-            </div>
-          </form>
-        </FormProvider>
-      </div>
-      <BackgroundLogo />
-    </section>
+    <FormProvider {...forgotPasswordMethods}>
+      <AuthForm
+        isPending={isPending}
+        submitBtnText={TEXT.SEND_EMAIL}
+        submitHandler={submitHandler}
+      >
+        <InputField
+          dataName={dataName.EMAIL}
+          label={LABEL.EMAIL_FIELD}
+          type={InputTypeEnum.EMAIL}
+          variant={INPUT_FIELD_VARIANTS.OUTLINED}
+          required
+          dataTestId={TEST_ID.EMAIL_FIELD}
+          error={error.email}
+        />
+      </AuthForm>
+    </FormProvider>
   );
 }

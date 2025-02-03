@@ -1,7 +1,7 @@
 import ForgotPassword from "../pages/forgotPassword/ForgotPassword";
-import ForgotPasswordForm from "../pages/forgotPasswordForm/ForgotPasswordForm";
+import ResetPassword from "../pages/resetPassword/ResetPassword";
 import HomePage from "../pages/home/Home";
-import Login from "../pages/login/Login";
+import LoginPage from "../pages/login/LoginPage";
 import NotFound from "../pages/notFound/NotFound";
 import RegisterPage from "../pages/register/RegisterPage";
 
@@ -21,7 +21,7 @@ export enum ROUTES {
 export const unprotectedPaths: PathsType[] = [
   {
     path: ROUTES.LOGIN,
-    component: <Login />,
+    component: <LoginPage />,
   },
   {
     path: ROUTES.REGISTER,
@@ -33,7 +33,7 @@ export const unprotectedPaths: PathsType[] = [
   },
   {
     path: `${ROUTES.FORGOT_PASSWORD}/:token`,
-    component: <ForgotPasswordForm />,
+    component: <ResetPassword />,
   },
   {
     path: ROUTES.NOT_FOUND,

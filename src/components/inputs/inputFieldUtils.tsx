@@ -15,6 +15,16 @@ export enum InputTypeEnum {
   EMAIL = "email",
 }
 
+export enum KeyboardCode {
+  ARROW_UP = "ArrowUp",
+  ARROW_DOWN = "ArrowDown",
+}
+
+export enum Direction {
+  NEXT = "next",
+  PREV = "prev",
+}
+
 export const ERRORS = {
   REQUIRED: (label: string) => `${label} is required`,
   PSW_NO_MATCH: "Passwords do not match",
@@ -35,6 +45,54 @@ export const isPasswordType = (type: InputTypeEnum) => {
 
 export const isEmailType = (type: InputTypeEnum) => {
   return type === InputTypeEnum.EMAIL;
+};
+
+export const handleFocus = (e: React.KeyboardEvent, direction: Direction) => {
+  e.preventDefault();
+  const form = e.currentTarget.closest("form") as HTMLFormElement;
+
+  if (!form) return;
+
+  const formElements = Array.from(form.elements) as HTMLElement[];
+  const focusableElement = e.target as HTMLInputElement;
+
+  const focusableElements = formElements.filter((element) => {
+    return element.tagName === "INPUT";
+  });
+
+  const currentIndex = focusableElements.indexOf(focusableElement);
+
+  const newIndex = direction === "next" ? currentIndex + 1 : currentIndex - 1;
+
+  const nextElement = focusableElements[newIndex];
+
+  if (nextElement) {
+    nextElement.focus();
+  }
+};
+
+export const focusPrev = (e: React.KeyboardEvent) => {
+  e.preventDefault();
+  const form = e.currentTarget.closest("form") as HTMLFormElement;
+
+  if (!form) return;
+
+  const formElements = Array.from(form.elements) as HTMLElement[];
+  const focusableElement = e.target as HTMLInputElement;
+
+  const focusableElements = formElements.filter((element) => {
+    return element.tagName === "INPUT";
+  });
+
+  const currentIndex = focusableElements.indexOf(focusableElement);
+
+  const prevElement = focusableElements[currentIndex - 1];
+
+  if (prevElement) {
+    prevElement.focus();
+  } else {
+    focusableElements[focusableElements.length - 1].focus();
+  }
 };
 
 export const getValidationRules = ({

@@ -5,9 +5,8 @@ export const TEXT = {
   RESET: "Reset",
 };
 
-
 export const LABEL = {
   EMAIL_FIELD: "Email",
   PASSWORD_FIELD: "Password",
   CONFIRM_PASSWORD_FIELD: "Confirm password",
-}
+};
