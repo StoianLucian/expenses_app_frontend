@@ -24,8 +24,8 @@ type InputProps = {
   label: string;
   type: InputTypeEnum;
   variant: INPUT_FIELD_VARIANTS;
-  required?: boolean;
   dataName: string;
+  required?: boolean;
   watchedInput?: string;
   minPasswordLength?: number;
   dataTestId?: string;
@@ -37,8 +37,8 @@ export default function InputField({
   label,
   type,
   variant,
-  required = false,
   dataName,
+  required = false,
   watchedInput,
   minPasswordLength,
   dataTestId,

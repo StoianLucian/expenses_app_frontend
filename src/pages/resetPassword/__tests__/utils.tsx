@@ -1,18 +1,17 @@
-import { render } from "@testing-library/react";
 import { ReactNode } from "react";
-import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToastContextProvider } from "../../../context/toastContext/ToastContext";
+import { render } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 
 export const renderWithWrapper = (ui: ReactNode) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
     const queryClient = new QueryClient();
     return (
-      <ToastContextProvider>
+      <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>{children}</BrowserRouter>
+          {children}
         </QueryClientProvider>
-      </ToastContextProvider>
+      </BrowserRouter>
     );
   };
 
