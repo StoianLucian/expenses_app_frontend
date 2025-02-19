@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { login } from "../../api/auth/auth";
 import { UseAuthContext } from "../../context/authContext/AuthContext";
-import { AuthData, LoginData } from "../../types/auth";
+import { AuthBadRequest, AuthData, AuthErrors, LoginData } from "../../types/auth";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
@@ -19,20 +19,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/routes";
 import { FormHelperText } from "@mui/material";
 
-type Errors = {
-  email?: string;
-  password?: string;
-};
-
-type LoginBadRequest = {
-  error: string;
-  errors: Errors[];
-  statusCode: string;
-  message?: string;
-};
 
 export default function LoginPage() {
-  const [error, setError] = useState<Errors>({});
+  const [error, setError] = useState<AuthErrors>({});
   const { setIsLoggedIn } = UseAuthContext();
   const navigate = useNavigate();
 
@@ -50,14 +39,14 @@ export default function LoginPage() {
       });
       navigate(ROUTES.HOME);
     },
-    onError: async (fail: LoginBadRequest) => {
+    onError: async (fail: AuthBadRequest) => {
       toastHandler({
         message: fail.statusCode,
         severity: ToastSeverity.ERROR,
       });
 
       fail.errors.forEach((error) => {
-        setError((prevState: Errors) => ({ ...prevState, ...error }));
+        setError((prevState: AuthErrors) => ({ ...prevState, ...error }));
       });
     },
   });

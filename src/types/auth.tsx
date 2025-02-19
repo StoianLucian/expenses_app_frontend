@@ -25,3 +25,16 @@ export type AuthData =
   | LoginData
   | ForgotPasswordData
   | ResetForgotPasswordData;
+
+export type AuthErrors = {
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+};
+
+export type AuthBadRequest = {
+  error: string;
+  errors: AuthErrors[];
+  statusCode: string;
+  message?: string;
+};

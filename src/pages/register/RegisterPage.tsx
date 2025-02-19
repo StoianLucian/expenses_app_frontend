@@ -8,7 +8,7 @@ import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
 import AuthForm from "../../components/authForm/AuthForm";
-import { AuthData, RegisterData } from "../../types/auth";
+import { AuthBadRequest, AuthData, AuthErrors, RegisterData } from "../../types/auth";
 import { InputTypeEnum } from "../../components/inputs/inputFieldUtils";
 import { TEST_ID } from "../../components/inputs/__tests__/testIds";
 import { dataName } from "./types/types";
@@ -17,21 +17,9 @@ import { ToastSeverity } from "../../components/toast/Toast";
 import { useState } from "react";
 import { FormHelperText } from "@mui/material";
 
-type Errors = {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-};
-
-type RegisterBadRequest = {
-  error: string;
-  errors: Errors[];
-  statusCode: string;
-  message?: string;
-};
 
 export default function RegisterPage() {
-  const [error, setError] = useState<Errors>({});
+  const [error, setError] = useState<AuthErrors>({});
   const navigate = useNavigate();
   const registerMethods = useForm<RegisterData>();
   const { toastHandler } = UseToastContext();
@@ -45,14 +33,14 @@ export default function RegisterPage() {
       });
       navigate(ROUTES.LOGIN);
     },
-    onError: async (_fail: RegisterBadRequest) => {
+    onError: async (_fail: AuthBadRequest) => {
       toastHandler({
         message: _fail.statusCode,
         severity: ToastSeverity.ERROR,
       });
 
       _fail.errors.forEach((error) => {
-        setError((prevState: Errors) => ({
+        setError((prevState: AuthErrors) => ({
           ...prevState,
           ...error,
         }));
