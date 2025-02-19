@@ -9,24 +9,14 @@ import { InputTypeEnum } from "../../components/inputs/inputFieldUtils";
 import { LABEL, TEXT } from "../../utils/strings";
 import { dataName } from "../register/types/types";
 import { TEST_ID } from "../../components/inputs/__tests__/testIds";
-import { AuthData, ForgotPasswordData } from "../../types/auth";
+import { AuthBadRequest, AuthData, AuthErrors, ForgotPasswordData } from "../../types/auth";
 import { useState } from "react";
 import { UseToastContext } from "../../context/toastContext/ToastContext";
 import { ToastSeverity } from "../../components/toast/Toast";
 
-type Errors = {
-  email?: string;
-};
-
-type ForgotPasswordBadRequest = {
-  error: string;
-  errors: Errors[];
-  statusCode: string;
-  message?: string;
-};
 
 export default function ForgotPassword() {
-  const [error, setError] = useState<Errors>({});
+  const [error, setError] = useState<AuthErrors>({});
 
   const { toastHandler } = UseToastContext();
 
@@ -40,9 +30,9 @@ export default function ForgotPassword() {
         severity: ToastSeverity.SUCCESS,
       });
     },
-    onError: async (fail: ForgotPasswordBadRequest) => {
+    onError: async (fail: AuthBadRequest) => {
       fail.errors.forEach((error) => {
-        setError((prevState: Errors) => ({ ...prevState, ...error }));
+        setError((prevState: AuthErrors) => ({ ...prevState, ...error }));
       });
     },
   });
