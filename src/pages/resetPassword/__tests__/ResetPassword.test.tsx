@@ -1,22 +1,21 @@
-import { screen } from "@testing-library/react";
 import { useMutation } from "@tanstack/react-query";
+import { Mock, vi } from "vitest";
 import { TEST_ID } from "../../../components/inputs/__tests__/testIds";
-import { vi, Mock } from "vitest";
-import RegisterPage from "../RegisterPage";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { submitBtnTestId } from "../../../components/authForm/AuthForm";
+import ResetPassword from "../ResetPassword";
 import { renderWithWrapper } from "../../../utils/tests";
 
-// import the package so we can mock the UseMutation function
 vi.mock("@tanstack/react-query", async () => {
   const actual = await vi.importActual("@tanstack/react-query");
   return {
-    ...actual, // Preserve all original exports
-    useMutation: vi.fn(), // Mock only `useMutation`
+    ...actual,
+    useMutation: vi.fn(),
   };
 });
 
-describe("Register page tests", () => {
+describe("ResetPassword page tests", () => {
   let emailInput: HTMLInputElement;
   let passwordInput: HTMLInputElement;
   let confirmPasswordInput: HTMLInputElement;
@@ -31,7 +30,7 @@ describe("Register page tests", () => {
       isPending: false,
     });
 
-    renderWithWrapper(<RegisterPage />);
+    renderWithWrapper(<ResetPassword />);
 
     emailInput = screen.getByTestId(TEST_ID.EMAIL_FIELD);
     passwordInput = screen.getByTestId(TEST_ID.PASSWORD_FIELD);
@@ -39,7 +38,7 @@ describe("Register page tests", () => {
     submitButton = screen.getByTestId(submitBtnTestId);
   });
 
-  test("Render register page", async () => {
+  test("ForgotPassword login page", async () => {
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(confirmPasswordInput).toBeInTheDocument();
@@ -48,7 +47,7 @@ describe("Register page tests", () => {
 
   test("Inputs accept value", async () => {
     const emailValue = "test@test.com";
-    const passwordValue = "testpassword";
+    const passwordValue = "Test@19961996";
 
     await userEvent.type(emailInput, emailValue);
     await userEvent.type(passwordInput, passwordValue);
@@ -61,7 +60,7 @@ describe("Register page tests", () => {
 
   test("Submit function is called with correct data", async () => {
     const emailValue = "test@test.com";
-    const passwordValue = "@Dmin123123";
+    const passwordValue = "Test@19961996";
 
     // Fill the inputs
     await userEvent.type(emailInput, emailValue);

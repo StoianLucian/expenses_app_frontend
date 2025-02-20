@@ -19,7 +19,7 @@ export async function sendForgotPasswordEmail(data: ForgotPasswordData) {
       data
     );
 
-    return response;
+    return response.data;
   } catch (error: any) {
     throw error.response.data;
   }

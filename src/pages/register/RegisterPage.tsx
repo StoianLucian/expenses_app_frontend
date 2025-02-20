@@ -1,36 +1,25 @@
 import { useMutation } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { register } from "../../api/auth/users";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { LABEL, TEXT } from "../../utils/strings";
 import { ROUTES } from "../../Routes/routes";
 import InputField, {
   INPUT_FIELD_VARIANTS,
 } from "../../components/inputs/InputField";
 import AuthForm from "../../components/authForm/AuthForm";
-import { RegisterData } from "../../types/auth";
+import { AuthBadRequest, AuthData, AuthErrors, RegisterData } from "../../types/auth";
 import { InputTypeEnum } from "../../components/inputs/inputFieldUtils";
 import { TEST_ID } from "../../components/inputs/__tests__/testIds";
 import { dataName } from "./types/types";
 import { UseToastContext } from "../../context/toastContext/ToastContext";
 import { ToastSeverity } from "../../components/toast/Toast";
 import { useState } from "react";
+import { FormHelperText } from "@mui/material";
 
-type Errors = {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-};
-
-type RegisterBadRequest = {
-  error: string;
-  errors: Errors[];
-  statusCode: string;
-  message?: string;
-};
 
 export default function RegisterPage() {
-  const [error, setError] = useState<Errors>({});
+  const [error, setError] = useState<AuthErrors>({});
   const navigate = useNavigate();
   const registerMethods = useForm<RegisterData>();
   const { toastHandler } = UseToastContext();
@@ -44,14 +33,14 @@ export default function RegisterPage() {
       });
       navigate(ROUTES.LOGIN);
     },
-    onError: async (_fail: RegisterBadRequest) => {
+    onError: async (_fail: AuthBadRequest) => {
       toastHandler({
         message: _fail.statusCode,
         severity: ToastSeverity.ERROR,
       });
 
       _fail.errors.forEach((error) => {
-        setError((prevState: Errors) => ({
+        setError((prevState: AuthErrors) => ({
           ...prevState,
           ...error,
         }));
@@ -59,16 +48,16 @@ export default function RegisterPage() {
     },
   });
 
-  function submitHandler(data: RegisterData) {
+  function submitHandler(data: AuthData) {
     setError({});
-    mutate(data);
+    mutate(data as RegisterData);
   }
 
   return (
     <FormProvider {...registerMethods}>
       <AuthForm
         submitBtnText={TEXT.SIGNUP}
-        submitHandler={() => submitHandler}
+        submitHandler={submitHandler}
         isPending={isPending}
       >
         <InputField
@@ -100,6 +89,9 @@ export default function RegisterPage() {
           watchedInput={dataName.PASSWORD}
           dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
         />
+        <NavLink to={ROUTES.LOGIN}>
+          <FormHelperText>Already registered? Click here!</FormHelperText>
+        </NavLink>
       </AuthForm>
     </FormProvider>
   );
