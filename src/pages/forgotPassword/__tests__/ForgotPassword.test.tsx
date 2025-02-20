@@ -42,6 +42,8 @@ describe("Login page tests", () => {
     const emailValue = "test@test.com";
 
     await userEvent.type(emailInput, emailValue);
+
+    expect(emailInput.value).toBe(emailValue);
   });
 
   test("Submit function is called with correct data", async () => {
