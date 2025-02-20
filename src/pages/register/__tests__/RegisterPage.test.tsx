@@ -4,8 +4,8 @@ import { TEST_ID } from "../../../components/inputs/__tests__/testIds";
 import { vi, Mock } from "vitest";
 import RegisterPage from "../RegisterPage";
 import userEvent from "@testing-library/user-event";
-import { renderWithWrapper } from "./utils";
 import { submitBtnTestId } from "../../../components/authForm/AuthForm";
+import { renderWithWrapper } from "../../../utils/tests";
 
 // import the package so we can mock the UseMutation function
 vi.mock("@tanstack/react-query", async () => {

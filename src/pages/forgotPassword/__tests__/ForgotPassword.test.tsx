@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Mock, vi } from "vitest";
 import { TEST_ID } from "../../../components/inputs/__tests__/testIds";
 import { screen } from "@testing-library/react";
-import { renderWithWrapper } from "./utils";
 import userEvent from "@testing-library/user-event";
 import { submitBtnTestId } from "../../../components/authForm/AuthForm";
 import ForgotPassword from "../ForgotPassword";
+import { renderWithWrapper } from "../../../utils/tests";
 
 vi.mock("@tanstack/react-query", async () => {
   const actual = await vi.importActual("@tanstack/react-query");
