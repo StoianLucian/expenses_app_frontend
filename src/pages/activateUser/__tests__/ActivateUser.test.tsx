@@ -79,12 +79,11 @@ describe("ActivateUser page", () => {
 
         const { rerender } = renderWithWrapper(<ActivateUser />);
         rerender(<ActivateUser />);
-        screen.debug()
 
         expect(screen.getByTestId(TEST_ID.SUCCESS)).toBeInTheDocument()
     })
 
-    test("Submit function is called with correct data", async () => {
+    test("Activate account function is called when page is loaded ", async () => {
         const mockFunction = vi.fn();
 
         (useMutation as Mock).mockReturnValue({
