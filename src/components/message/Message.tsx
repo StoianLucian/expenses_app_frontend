@@ -29,8 +29,6 @@ export default function Message({
             default:
                 return null
         }
-
-
     }
     return (
         <Alert data-testid={dataTestId} severity={severityType} icon={renderIcon(severityType)}>{message}</Alert>

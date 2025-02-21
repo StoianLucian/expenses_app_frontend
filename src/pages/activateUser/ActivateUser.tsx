@@ -11,6 +11,7 @@ import BackgroundLogo from '../../components/backgroundLogo/BackgroundLogo';
 import { AuthBadRequest } from '../../types/auth';
 import { TEST_ID } from './__tests__/testIds.tsx';
 import Message, { MessageSeverity } from '../../components/message/Message';
+import { Messages } from '../../components/message/utils/utils.tsx';
 
 
 export default function ActivateUser() {
@@ -80,8 +81,8 @@ export default function ActivateUser() {
                             <ArrowBack />go back home
                         </Button>
                     }
-                    {isError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message="there was a problem activating your account" />}
-                    {isSuccess && <Message severityType={MessageSeverity.SUCCESS} dataTestId={TEST_ID.SUCCESS} message="Your account is active" />}
+                    {isError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
+                    {isSuccess && <Message severityType={MessageSeverity.SUCCESS} dataTestId={TEST_ID.SUCCESS} message={Messages.SUCCESS_ACCOUNT_ACTIVATION} />}
                 </Stack>
             </Box>
         </Container >
