@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "./commons";
 import { ForgotPasswordData, RegisterData } from "../../types/auth";
 
-async function register(data: RegisterData) {
+export async function register(data: RegisterData) {
   try {
     const response = await axios.post(`${BASE_URL}/users`, data);
 
@@ -38,4 +38,12 @@ export async function resetForgotPassword(data: any) {
   }
 }
 
-export { register };
+export async function activateUser(token: string | undefined) {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/activate/${token}`);
+    return response.data;
+  } catch (error: any) {
+
+    throw error
+  }
+}
