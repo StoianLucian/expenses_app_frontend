@@ -3,6 +3,7 @@ export const TEXT = {
   LOGIN: "Login",
   SEND_EMAIL: "Send email",
   RESET: "Reset",
+  BACK_HOME: "Back home"
 };
 
 export const LABEL = {

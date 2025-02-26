@@ -12,6 +12,7 @@ import { AuthBadRequest } from '../../types/auth';
 import { TEST_ID } from './__tests__/testIds.tsx';
 import Message, { MessageSeverity } from '../../components/message/Message';
 import { Messages } from '../../components/message/utils/utils.tsx';
+import { TEXT } from '../../utils/strings.tsx';
 
 
 export default function ActivateUser() {
@@ -78,7 +79,7 @@ export default function ActivateUser() {
                         <CircularProgress size="50px" color="primary" data-testid={TEST_ID.LOADING} />
                         :
                         <Button onClick={() => { navigate(ROUTES.HOME) }}>
-                            <ArrowBack />go back home
+                            <ArrowBack />{TEXT.BACK_HOME}
                         </Button>
                     }
                     {isError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
