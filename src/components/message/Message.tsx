@@ -15,8 +15,8 @@ export default function Message({
     dataTestId,
     severityType
 }: {
-    message: string | undefined;
-    dataTestId: string | undefined;
+    message: string;
+    dataTestId?: string | undefined;
     severityType: MessageSeverity
 }) {
 
