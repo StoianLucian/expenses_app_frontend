@@ -1,6 +1,6 @@
 import { Check } from "@mui/icons-material";
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
-import { Alert } from "@mui/material";
+import { Alert, Icon } from "@mui/material";
 
 
 export enum MessageSeverity {
@@ -27,7 +27,7 @@ export default function Message({
             case MessageSeverity.SUCCESS:
                 return <Check />
             default:
-                return null
+                return <Icon />
         }
     }
     return (
