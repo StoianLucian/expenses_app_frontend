@@ -5,6 +5,8 @@ import { renderWithWrapper } from "../../../utils/tests";
 import ActivateUser from "../ActivateUser";
 import { useParams } from "react-router-dom";
 import { TEST_ID } from "./testIds";
+import { pendingCircleTestId, submitBtnTestId } from "../../../components/authForm/AuthForm";
+import userEvent from "@testing-library/user-event";
 
 vi.mock("@tanstack/react-query", async () => {
     const actual = await vi.importActual("@tanstack/react-query");
@@ -25,6 +27,19 @@ vi.mock("react-router-dom", async () => {
 describe("ActivateUser page", () => {
     const mockMutate = vi.fn();
 
+    let submitBtn: HTMLButtonElement;
+
+    const nextFrame = (pending: boolean, error: boolean, success: boolean) => {
+        (useMutation as Mock).mockReturnValue({
+            mutate: mockMutate,
+            isPending: pending,
+            isError: error,
+            isSuccess: success
+        });
+        const { rerender } = renderWithWrapper(<ActivateUser />);
+        return rerender(<ActivateUser />);
+    }
+
     beforeEach(async () => {
 
         (useParams as Mock).mockReturnValue({ token: "test-token" });
@@ -37,67 +52,39 @@ describe("ActivateUser page", () => {
         });
 
         renderWithWrapper(<ActivateUser />);
+        submitBtn = screen.getByTestId(submitBtnTestId)
 
     });
-
 
     test("loading state should be displyed", async () => {
-        (useMutation as Mock).mockReturnValue({
-            mutate: mockMutate,
-            isPending: true,
-            isError: false,
-            isSuccess: false,
-        });
 
-        const { rerender } = renderWithWrapper(<ActivateUser />);
-        rerender(<ActivateUser />);
+        await userEvent.click(submitBtn);
+        expect(mockMutate).toHaveBeenCalledTimes(1);
 
-        expect(screen.getByTestId(TEST_ID.LOADING)).toBeInTheDocument()
+        nextFrame(true, false, false);
+
+        const pendingState = screen.getByTestId(pendingCircleTestId);
+
+        expect(pendingState).toBeInTheDocument();
     })
 
-    test("error state should be displyed", async () => {
-        (useMutation as Mock).mockReturnValue({
-            mutate: mockMutate,
-            isPending: false,
-            isError: true,
-            isSuccess: false,
-        });
+    test("error state should be displayed", async () => {
+        await userEvent.click(submitBtn);
 
-        const { rerender } = renderWithWrapper(<ActivateUser />);
-        rerender(<ActivateUser />);
+        nextFrame(false, true, false);
 
-        expect(screen.getByTestId(TEST_ID.ERROR)).toBeInTheDocument()
+        const errorState = screen.getByTestId(TEST_ID.ERROR);
+
+        expect(errorState).toBeInTheDocument();
     })
 
-    test("success state should be displyed", async () => {
-        (useMutation as Mock).mockReturnValue({
-            mutate: mockMutate,
-            isPending: false,
-            isError: false,
-            isSuccess: true,
-        });
+    test("success state should be displayed", async () => {
+        await userEvent.click(submitBtn);
 
-        const { rerender } = renderWithWrapper(<ActivateUser />);
-        rerender(<ActivateUser />);
+        nextFrame(false, false, true);
 
-        expect(screen.getByTestId(TEST_ID.SUCCESS)).toBeInTheDocument()
+        const successState = screen.getByTestId(TEST_ID.SUCCESS);
+
+        expect(successState).toBeInTheDocument();
     })
-
-    test("Activate account function is called when page is loaded ", async () => {
-        const mockFunction = vi.fn();
-
-        (useMutation as Mock).mockReturnValue({
-            mutate: mockFunction,
-            isPending: false,
-            isError: false,
-            isSuccess: false,
-        });
-
-        const { rerender } = renderWithWrapper(<ActivateUser />);
-        rerender(<ActivateUser />)
-
-        expect(mockFunction).toHaveBeenCalledTimes(1);
-    });
-
-
 });
