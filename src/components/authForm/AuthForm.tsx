@@ -66,7 +66,6 @@ export default function AuthForm({
                 }}
               >
                 <Stack sx={{ color: "white" }}>
-                <CircularProgress  size="30px" color="inherit" />
                   {isPending ? (
                     <CircularProgress data-testId={pendingCircleTestId} size="30px" color="inherit" />
                   ) : (
