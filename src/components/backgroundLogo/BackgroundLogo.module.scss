@@ -1,6 +1,7 @@
 .logoContainer {
   height: 16rem;
   width: 32vw;
+  max-width: 20rem;
   background-image: url("../../assets/images/expenses-cover.png");
   background-size: cover; /* Adjusts the image to cover the container */
   background-position: center; /* Centers the image */
