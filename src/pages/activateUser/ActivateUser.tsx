@@ -10,7 +10,7 @@ import { Messages } from '../../components/message/utils/utils.tsx';
 import { TEXT } from '../../utils/strings.tsx';
 import AuthForm from '../../components/authForm/AuthForm.tsx';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { ROUTES } from '../../Routes/routes.tsx';
 import { ArrowBack } from '@mui/icons-material';
 
@@ -24,7 +24,7 @@ export default function ActivateUser() {
 
     const { token } = useParams()
 
-    const { mutate, isPending, isError, isSuccess } = useMutation({
+    const { mutate, isPending, isError } = useMutation({
         mutationFn: async () => {
             return activateUser(token);
         },
@@ -33,6 +33,7 @@ export default function ActivateUser() {
                 message: success,
                 severity: ToastSeverity.SUCCESS
             })
+            navigate(ROUTES.LOGIN);
         },
         onError: (fail: AuthBadRequest) => {
             toastHandler({
@@ -42,6 +43,15 @@ export default function ActivateUser() {
         }
     })
 
+    function renderBackButton() {
+        return (
+            <Box sx={{ textAlign: "center" }}>
+                <Button onClick={() => { navigate(ROUTES.LOGIN) }}><ArrowBack /> {TEXT.LOGIN_PAGE}</Button>
+            </Box>
+
+        )
+    }
+
     function submitHandler(data: any) {
         mutate(data);
     }
@@ -50,8 +60,7 @@ export default function ActivateUser() {
         <FormProvider {...activateUserMethods} >
             <AuthForm isPending={isPending} submitBtnText={TEXT.ACTIVATE_ACCOUNT} submitHandler={submitHandler}>
                 {isError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
-                {isSuccess && <Message severityType={MessageSeverity.SUCCESS} dataTestId={TEST_ID.SUCCESS} message={Messages.SUCCESS_ACCOUNT_ACTIVATION} />}
-                {(isError || isSuccess) && <Button onClick={() => { navigate(ROUTES.LOGIN) }}><ArrowBack /> {TEXT.LOGIN_PAGE}</Button>}
+                {isError && renderBackButton()}
             </AuthForm>
         </FormProvider>
     )
