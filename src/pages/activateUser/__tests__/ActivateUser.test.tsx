@@ -72,7 +72,7 @@ describe("ActivateUser page", () => {
         nextFrame(false, true, false);
 
         const errorState = screen.getByTestId(TEST_ID.ERROR);
-    
+
         expect(submitBtn).toBeInTheDocument()
         expect(errorState).toBeInTheDocument();
     })
