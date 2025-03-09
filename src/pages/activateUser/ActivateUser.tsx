@@ -27,7 +27,7 @@ export default function ActivateUser() {
     const { token } = useParams()
 
     const { ActivateAccount, isError, isPending } = UseActivateAccount(token, onSuccess, onError)
-    const { ResendActivationToken, isPending: pending2, isError: error2 } = UseResendActivationToken(token, onSuccess, onError)
+    const { ResendActivationToken, isPending: activationPending, isError: activationError } = UseResendActivationToken(token, onSuccess, onError)
 
 
     //TO DO: create fixed statuses for backend on order to make handle response function
@@ -62,9 +62,9 @@ export default function ActivateUser() {
 
     return (
         <FormProvider {...activateUserMethods} >
-            <AuthForm isPending={isPending || pending2} submitBtnText={TEXT.SEND_ACCOUNT_ACTIVATION_EMAIL} submitHandler={() => ResendActivationToken()}>
-                {isError || error2 && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
-                {isError || error2 && renderBackButton()}
+            <AuthForm isPending={isPending || activationPending} submitBtnText={TEXT.SEND_ACCOUNT_ACTIVATION_EMAIL} submitHandler={() => ResendActivationToken()}>
+                {isError || activationError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
+                {isError || activationError && renderBackButton()}
             </AuthForm>
         </FormProvider>
     )
