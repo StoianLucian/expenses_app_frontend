@@ -14,6 +14,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { UseActivateAccount } from '../../hooks/UseActivateAccount.tsx';
 import { AuthBadRequest } from '../../types/auth.tsx';
+import { UseResendActivationToken } from '../../hooks/UseResendActivationToken.tsx';
 
 
 export default function ActivateUser() {
@@ -26,6 +27,7 @@ export default function ActivateUser() {
     const { token } = useParams()
 
     const { ActivateAccount, isError, isPending } = UseActivateAccount(token, onSuccess, onError)
+    const { ResendActivationToken, isPending: pending2, isError: error2 } = UseResendActivationToken(token, onSuccess, onError)
 
 
     //TO DO: create fixed statuses for backend on order to make handle response function
@@ -46,8 +48,6 @@ export default function ActivateUser() {
         navigate(ROUTES.LOGIN);
     }
 
-    //
-
     useEffect(() => {
         ActivateAccount()
     }, [])
@@ -60,15 +60,11 @@ export default function ActivateUser() {
         )
     }
 
-    // function submitHandler(data: any) {
-    //     activateAccount(data);
-    // }
-
     return (
         <FormProvider {...activateUserMethods} >
-            <AuthForm isPending={isPending} submitBtnText={TEXT.SEND_ACCOUNT_ACTIVATION_EMAIL} submitHandler={() => { }}>
-                {isError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
-                {isError && renderBackButton()}
+            <AuthForm isPending={isPending || pending2} submitBtnText={TEXT.SEND_ACCOUNT_ACTIVATION_EMAIL} submitHandler={() => ResendActivationToken()}>
+                {isError || error2 && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
+                {isError || error2 && renderBackButton()}
             </AuthForm>
         </FormProvider>
     )
