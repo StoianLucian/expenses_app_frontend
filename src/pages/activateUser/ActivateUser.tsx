@@ -13,6 +13,7 @@ import { ROUTES } from '../../Routes/routes.tsx';
 import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { UseActivateAccount } from '../../hooks/UseActivateAccount.tsx';
+import { AuthBadRequest } from '../../types/auth.tsx';
 
 
 export default function ActivateUser() {
@@ -24,7 +25,10 @@ export default function ActivateUser() {
 
     const { token } = useParams()
 
-    const { ActivateAccount, isError, isPending } = UseActivateAccount({ mutationProps: token, onSuccessHandler: onSuccess, onErrorHandler: onError })
+    const { ActivateAccount, isError, isPending } = UseActivateAccount(token, onSuccess, onError)
+
+
+    //TO DO: create fixed statuses for backend on order to make handle response function
 
     function onSuccess(response: string) {
         toastHandler({
@@ -34,13 +38,15 @@ export default function ActivateUser() {
         navigate(ROUTES.LOGIN);
     }
 
-    function onError(response: string) {
+    function onError(response: AuthBadRequest) {
         toastHandler({
-            message: response,
+            message: response.message,
             severity: ToastSeverity.ERROR
         })
         navigate(ROUTES.LOGIN);
     }
+
+    //
 
     useEffect(() => {
         ActivateAccount()

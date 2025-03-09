@@ -2,14 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { activateUser } from "../api/auth/users";
 import { AuthBadRequest } from "../types/auth";
 
-type UseActivateAccountProps = {
-    mutationProps: any
-    onSuccessHandler: (response: any) => void,
-    onErrorHandler: (response: any) => void,
-
-}
-
-export const UseActivateAccount = ({ mutationProps, onSuccessHandler, onErrorHandler, }: UseActivateAccountProps) => {
+export const UseActivateAccount = (mutationProps: string | undefined, onSuccessHandler: (response: any) => void, onErrorHandler: (response: AuthBadRequest) => void,) => {
 
     const { mutate: ActivateAccount, isPending, isError } = useMutation({
         mutationFn: async () => {

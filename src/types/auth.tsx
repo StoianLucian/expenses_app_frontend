@@ -36,5 +36,5 @@ export type AuthBadRequest = {
   error: string;
   errors: AuthErrors[];
   statusCode: string;
-  message?: string;
+  message: string;
 };
