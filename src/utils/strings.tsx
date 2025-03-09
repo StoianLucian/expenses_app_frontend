@@ -5,7 +5,7 @@ export const TEXT = {
   RESET: "Reset",
   BACK_HOME: "Back home",
   LOGIN_PAGE: "Login page",
-  ACTIVATE_ACCOUNT: "Activate account"
+  SEND_ACCOUNT_ACTIVATION_EMAIL: "Resend email"
 };
 
 export const LABEL = {

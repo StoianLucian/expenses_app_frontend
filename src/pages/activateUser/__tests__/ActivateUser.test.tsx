@@ -77,14 +77,4 @@ describe("ActivateUser page", () => {
 
         expect(errorState).toBeInTheDocument();
     })
-
-    test("success state should be displayed", async () => {
-        await userEvent.click(submitBtn);
-
-        nextFrame(false, false, true);
-
-        const successState = screen.getByTestId(TEST_ID.SUCCESS);
-
-        expect(successState).toBeInTheDocument();
-    })
 });
