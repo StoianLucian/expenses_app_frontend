@@ -58,7 +58,6 @@ describe("ActivateUser page", () => {
 
     test("loading state should be displyed", async () => {
 
-        await userEvent.click(submitBtn);
         expect(mockMutate).toHaveBeenCalledTimes(1);
 
         nextFrame(true, false, false);
@@ -69,12 +68,12 @@ describe("ActivateUser page", () => {
     })
 
     test("error state should be displayed", async () => {
-        await userEvent.click(submitBtn);
 
         nextFrame(false, true, false);
 
         const errorState = screen.getByTestId(TEST_ID.ERROR);
-
+    
+        expect(submitBtn).toBeInTheDocument()
         expect(errorState).toBeInTheDocument();
     })
 });

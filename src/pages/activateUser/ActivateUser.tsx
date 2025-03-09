@@ -63,8 +63,8 @@ export default function ActivateUser() {
     return (
         <FormProvider {...activateUserMethods} >
             <AuthForm isPending={isPending || activationPending} submitBtnText={TEXT.SEND_ACCOUNT_ACTIVATION_EMAIL} submitHandler={() => ResendActivationToken()}>
-                {isError || activationError && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
-                {isError || activationError && renderBackButton()}
+                {(isError || activationError) &&  <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
+                {(isError || activationError) && renderBackButton()}
             </AuthForm>
         </FormProvider>
     )
