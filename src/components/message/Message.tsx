@@ -1,7 +1,7 @@
 import { Check } from "@mui/icons-material";
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
 import { Alert, Icon } from "@mui/material";
-
+import { errorId } from "./utils/utils";
 
 export enum MessageSeverity {
     ERROR = "error",
@@ -12,7 +12,6 @@ export enum MessageSeverity {
 
 export default function Message({
     message,
-    dataTestId,
     severityType
 }: {
     message: string;
@@ -31,6 +30,6 @@ export default function Message({
         }
     }
     return (
-        <Alert data-testid={dataTestId} severity={severityType} icon={renderIcon(severityType)}>{message}</Alert>
+        <Alert data-testid={errorId} severity={severityType} icon={renderIcon(severityType)}>{message}</Alert>
     );
 }

@@ -4,9 +4,8 @@ import { screen } from "@testing-library/react";
 import { renderWithWrapper } from "../../../utils/tests";
 import ActivateUser from "../ActivateUser";
 import { useParams } from "react-router-dom";
-import { TEST_ID } from "./testIds";
 import { pendingCircleTestId, submitBtnTestId } from "../../../components/authForm/AuthForm";
-import userEvent from "@testing-library/user-event";
+import { errorId } from "../../../components/message/utils/utils";
 
 vi.mock("@tanstack/react-query", async () => {
     const actual = await vi.importActual("@tanstack/react-query");
@@ -71,7 +70,7 @@ describe("ActivateUser page", () => {
 
         nextFrame(false, true, false);
 
-        const errorState = screen.getByTestId(TEST_ID.ERROR);
+        const errorState = screen.getByTestId(errorId);
 
         expect(submitBtn).toBeInTheDocument()
         expect(errorState).toBeInTheDocument();
