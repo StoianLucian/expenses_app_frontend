@@ -3,7 +3,6 @@ export const TEXT = {
   LOGIN: "Login",
   SEND_EMAIL: "Send email",
   RESET: "Reset",
-  BACK_HOME: "Back home",
   LOGIN_PAGE: "Login page",
   SEND_ACCOUNT_ACTIVATION_EMAIL: "Resend email"
 };
