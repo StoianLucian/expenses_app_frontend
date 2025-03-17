@@ -2,7 +2,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { UseToastContext } from '../../context/toastContext/ToastContext';
 import { ToastSeverity } from '../../components/toast/Toast';
-import { TEST_ID } from './__tests__/testIds.tsx';
 import Message, { MessageSeverity } from '../../components/message/Message';
 import { Messages } from '../../components/message/utils/utils.tsx';
 import { TEXT } from '../../utils/strings.tsx';
