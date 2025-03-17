@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { resendEmailActivationToken } from "../api/auth/users";
 import { AuthBadRequest } from "../types/auth";
 
-export const UseResendActivationToken = (mutationProps: string | undefined, onSuccessHandler: (response: any) => void, onErrorHandler: (response: AuthBadRequest) => void,) => {
+export const UseResendActivationToken = (mutationProps: string, onSuccessHandler: (response: any) => void, onErrorHandler: (response: AuthBadRequest) => void,) => {
 
     const { mutate: ResendActivationToken, isPending, isError } = useMutation({
         mutationFn: async () => {
@@ -10,7 +10,6 @@ export const UseResendActivationToken = (mutationProps: string | undefined, onSu
         },
         onSuccess: (_success) => {
             onSuccessHandler(_success)
-            alert("email sent");
         },
         onError: (_fail: AuthBadRequest) => {
             // TO DO: Add after proper backend response for error case

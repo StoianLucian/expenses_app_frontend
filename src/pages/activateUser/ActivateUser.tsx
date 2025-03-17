@@ -22,12 +22,12 @@ export default function ActivateUser() {
     const { toastHandler } = UseToastContext();
     const navigate = useNavigate();
 
-    const activateUserMethods = useForm<any>();
+    const activateUserMethods = useForm();
 
     const { token } = useParams()
 
-    const { ActivateAccount, isError, isPending } = UseActivateAccount(token, onSuccess, onError)
-    const { ResendActivationToken, isPending: activationPending, isError: activationError } = UseResendActivationToken(token, onSuccess, onError)
+    const { ActivateAccount, isError, isPending } = UseActivateAccount(token!, onSuccess, onError)
+    const { ResendActivationToken, isPending: activationPending, isError: activationError } = UseResendActivationToken(token!, onSuccess, onError)
 
 
     //TO DO: create fixed statuses for backend on order to make handle response function
@@ -45,7 +45,6 @@ export default function ActivateUser() {
             message: response.message,
             severity: ToastSeverity.ERROR
         })
-        navigate(ROUTES.LOGIN);
     }
 
     useEffect(() => {
@@ -63,7 +62,7 @@ export default function ActivateUser() {
     return (
         <FormProvider {...activateUserMethods} >
             <AuthForm isPending={isPending || activationPending} submitBtnText={TEXT.SEND_ACCOUNT_ACTIVATION_EMAIL} submitHandler={() => ResendActivationToken()}>
-                {(isError || activationError) &&  <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
+                {(isError || activationError) && <Message severityType={MessageSeverity.ERROR} dataTestId={TEST_ID.ERROR} message={Messages.ERROR_ACCOUNT_ACTIVATION} />}
                 {(isError || activationError) && renderBackButton()}
             </AuthForm>
         </FormProvider>

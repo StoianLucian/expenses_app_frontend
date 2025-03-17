@@ -25,7 +25,7 @@ export async function sendForgotPasswordEmail(data: ForgotPasswordData) {
   }
 }
 
-export async function resendEmailActivationToken(token: string | undefined) {
+export async function resendEmailActivationToken(token: string) {
 
   try {
     const response = await axios.post(`${BASE_URL}/users/resend/${token}`)
@@ -49,7 +49,7 @@ export async function resetForgotPassword(data: any) {
   }
 }
 
-export async function activateUser(token: string | undefined) {
+export async function activateUser(token: string) {
   try {
     const response = await axios.post(`${BASE_URL}/auth/activate/${token}`);
     return response.data;

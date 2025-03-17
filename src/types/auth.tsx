@@ -38,3 +38,9 @@ export type AuthBadRequest = {
   statusCode: string;
   message: string;
 };
+
+
+// TO DO
+export type AuthSuccessRequest = {
+
+}
