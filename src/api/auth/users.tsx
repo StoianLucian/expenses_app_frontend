@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "./commons";
 import { ForgotPasswordData, RegisterData } from "../../types/auth";
 
-async function register(data: RegisterData) {
+export async function register(data: RegisterData) {
   try {
     const response = await axios.post(`${BASE_URL}/users`, data);
 
@@ -25,6 +25,17 @@ export async function sendForgotPasswordEmail(data: ForgotPasswordData) {
   }
 }
 
+export async function resendEmailActivationToken(token: string) {
+
+  try {
+    const response = await axios.post(`${BASE_URL}/users/resend/${token}`)
+
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function resetForgotPassword(data: any) {
   try {
     const response = await axios.post(
@@ -38,4 +49,12 @@ export async function resetForgotPassword(data: any) {
   }
 }
 
-export { register };
+export async function activateUser(token: string) {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/activate/${token}`);
+    return response.data;
+  } catch (error: any) {
+
+    throw error
+  }
+}

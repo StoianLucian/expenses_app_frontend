@@ -4,6 +4,7 @@ import HomePage from "../pages/home/Home";
 import LoginPage from "../pages/login/LoginPage";
 import NotFound from "../pages/notFound/NotFound";
 import RegisterPage from "../pages/register/RegisterPage";
+import ActivateUser from "../pages/activateUser/ActivateUser";
 
 type PathsType = {
   path: string;
@@ -14,6 +15,7 @@ export enum ROUTES {
   HOME = "/",
   LOGIN = "/login",
   REGISTER = "/register",
+  USER_ACTIVATE = "/user/activate",
   FORGOT_PASSWORD = "/forgot-password",
   NOT_FOUND = "*",
 }
@@ -26,6 +28,10 @@ export const unprotectedPaths: PathsType[] = [
   {
     path: ROUTES.REGISTER,
     component: <RegisterPage />,
+  },
+  {
+    path: `${ROUTES.USER_ACTIVATE}/:token`,
+    component: <ActivateUser />
   },
   {
     path: ROUTES.FORGOT_PASSWORD,

@@ -13,6 +13,7 @@ type AuthFormProps = {
 };
 
 export const submitBtnTestId = "submitBtn";
+export const pendingCircleTestId = "pendingCircle"
 
 export default function AuthForm({
   children,
@@ -54,19 +55,25 @@ export default function AuthForm({
             }}
           >
             {children}
-            <Button
-              variant="contained"
-              type="submit"
-              data-testid={submitBtnTestId}
-            >
-              <Stack sx={{ color: "white" }}>
-                {isPending ? (
-                  <CircularProgress size="30px" color="inherit" />
-                ) : (
-                  submitBtnText
-                )}
-              </Stack>
-            </Button>
+            <Stack
+              sx={{ alignItems: "center" }}>
+              <Button
+                variant="contained"
+                type="submit"
+                data-testid={submitBtnTestId}
+                sx={{
+                  maxWidth: "10rem"
+                }}
+              >
+                <Stack sx={{ color: "white" }}>
+                  {isPending ? (
+                    <CircularProgress data-testId={pendingCircleTestId} size="30px" color="inherit" />
+                  ) : (
+                    submitBtnText
+                  )}
+                </Stack>
+              </Button>
+            </Stack>
           </Form>
         </Stack>
         <Stack>
