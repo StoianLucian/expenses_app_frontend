@@ -17,7 +17,6 @@ export type ResetForgotPasswordData = {
   email: string;
   password: string;
   confirmPassword: string;
-  token: string;
 };
 
 export type AuthData =
@@ -39,8 +38,8 @@ export type AuthBadRequest = {
   message: string;
 };
 
-
-// TO DO
 export type AuthSuccessRequest = {
-
+  statusCode: string;
+  message: string;
+  data?: any
 }

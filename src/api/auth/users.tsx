@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "./commons";
-import { ForgotPasswordData, RegisterData } from "../../types/auth";
+import { AuthSuccessRequest, ForgotPasswordData, RegisterData, ResetForgotPasswordData } from "../../types/auth";
 
 export async function register(data: RegisterData) {
   try {
@@ -8,6 +8,7 @@ export async function register(data: RegisterData) {
 
     return response.data;
   } catch (error: any) {
+    console.error(error)
     throw error.response?.data || "An unexpected error occurred";
   }
 }
@@ -21,6 +22,7 @@ export async function sendForgotPasswordEmail(data: ForgotPasswordData) {
 
     return response.data;
   } catch (error: any) {
+    console.error(error)
     throw error.response.data;
   }
 }
@@ -32,19 +34,21 @@ export async function resendEmailActivationToken(token: string) {
 
     return response
   } catch (error) {
+    console.error(error)
     throw error
   }
 }
 
-export async function resetForgotPassword(data: any) {
+export async function resetForgotPassword(data: ResetForgotPasswordData, token: string): Promise<AuthSuccessRequest> {
   try {
     const response = await axios.post(
-      `${BASE_URL}/users/forgot-password/${data.token}`,
+      `${BASE_URL}/users/forgot-password/${token}`,
       data
     );
 
-    return response;
+    return response.data;
   } catch (error) {
+    console.error(error)
     throw error;
   }
 }
@@ -54,7 +58,7 @@ export async function activateUser(token: string) {
     const response = await axios.post(`${BASE_URL}/auth/activate/${token}`);
     return response.data;
   } catch (error: any) {
-
+    console.error(error)
     throw error
   }
 }
