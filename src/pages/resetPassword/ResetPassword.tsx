@@ -53,7 +53,7 @@ export default function ResetPassword() {
     <FormProvider {...ForgotPasswordFormMethods}>
       <AuthForm
         isPending={isPending}
-        submitBtnText={TEXT.SEND_EMAIL}
+        submitBtnText={TEXT.RESET_PASSWORD}
         submitHandler={submitHandler}
       >
         <InputField
