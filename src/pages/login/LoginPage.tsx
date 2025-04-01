@@ -17,7 +17,7 @@ import { UseToastContext } from "../../context/toastContext/ToastContext";
 import { ToastSeverity } from "../../components/toast/Toast";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Routes/routes";
-import { FormHelperText } from "@mui/material";
+import { FormHelperText, Stack } from "@mui/material";
 
 
 export default function LoginPage() {
@@ -81,9 +81,15 @@ export default function LoginPage() {
           dataTestId={TEST_ID.PASSWORD_FIELD}
           error={error.password}
         />
-        <NavLink to={ROUTES.REGISTER}>
-          <FormHelperText>Not registered? Click here!</FormHelperText>
-        </NavLink>
+        <Stack>
+          <NavLink to={ROUTES.REGISTER}>
+            <FormHelperText>Not registered?</FormHelperText>
+          </NavLink>
+          <NavLink to={ROUTES.FORGOT_PASSWORD}>
+            <FormHelperText>Forgot password?</FormHelperText>
+          </NavLink>
+        </Stack>
+
       </AuthForm>
     </FormProvider>
   );

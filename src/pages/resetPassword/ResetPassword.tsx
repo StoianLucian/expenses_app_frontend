@@ -1,8 +1,4 @@
-import { useParams } from "react-router-dom";
-
 import { FormProvider, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { resetForgotPassword } from "../../api/auth/users";
 import AuthForm from "../../components/authForm/AuthForm";
 import InputField, {
   INPUT_FIELD_VARIANTS,
@@ -11,30 +7,53 @@ import { InputTypeEnum } from "../../components/inputs/inputFieldUtils";
 import { TEXT, LABEL } from "../../utils/strings";
 import { dataName } from "../register/types/types";
 import { TEST_ID } from "../../components/inputs/__tests__/testIds";
-import { AuthData, ResetForgotPasswordData } from "../../types/auth";
+import { AuthBadRequest, AuthData, AuthErrors, AuthSuccessRequest, ResetForgotPasswordData } from "../../types/auth";
+import { useNavigate, useParams } from "react-router-dom";
+import { UseToastContext } from "../../context/toastContext/ToastContext";
+import { ToastSeverity } from "../../components/toast/Toast";
+import { useState } from "react";
+import { UseResetPassword } from "../../hooks/UseResetPassword";
+import { ROUTES } from "../../Routes/routes";
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
+  const [errors, setError] = useState<AuthErrors>({})
   const ForgotPasswordFormMethods = useForm<ResetForgotPasswordData>();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: ResetForgotPasswordData) => resetForgotPassword(data),
-    onSuccess: (success) => {
-      console.log(success);
-    },
-    onError: async (fail) => {
-      console.log(fail);
-    },
-  });
+  const { token } = useParams();
+  const { toastHandler } = UseToastContext();
+
+  const { resetPassword, isPending } = UseResetPassword(token!, onSuccess, onError)
+
+
+  function onSuccess(response: AuthSuccessRequest) {
+    toastHandler({
+      message: response.message,
+      severity: ToastSeverity.SUCCESS
+    })
+    navigate(ROUTES.LOGIN);
+  }
+
+  function onError(response: AuthBadRequest) {
+    toastHandler({
+      message: response.message,
+      severity: ToastSeverity.ERROR
+    })
+
+    response.errors.forEach((error) => {
+      setError((prevState: AuthErrors) => ({ ...prevState, ...error }));
+    });
+  }
 
   function submitHandler(data: AuthData) {
-    mutate(data as ResetForgotPasswordData);
+    resetPassword(data as ResetForgotPasswordData)
   }
 
   return (
     <FormProvider {...ForgotPasswordFormMethods}>
       <AuthForm
         isPending={isPending}
-        submitBtnText={TEXT.SEND_EMAIL}
+        submitBtnText={TEXT.RESET_PASSWORD}
         submitHandler={submitHandler}
       >
         <InputField
@@ -44,7 +63,7 @@ export default function ResetPassword() {
           variant={INPUT_FIELD_VARIANTS.OUTLINED}
           required
           dataTestId={TEST_ID.EMAIL_FIELD}
-          // error={error.email} todo: add validation on backend
+          error={errors.email}
         />
         <InputField
           dataName={dataName.PASSWORD}
@@ -52,9 +71,9 @@ export default function ResetPassword() {
           type={InputTypeEnum.PASSWORD}
           variant={INPUT_FIELD_VARIANTS.OUTLINED}
           required
-          // error={error.password} todo: add validation on backend
           minPasswordLength={10}
           dataTestId={TEST_ID.PASSWORD_FIELD}
+          error={errors.password}
         />
         <InputField
           dataName={dataName.CONFIRM_PASSWORD}
@@ -62,9 +81,9 @@ export default function ResetPassword() {
           type={InputTypeEnum.PASSWORD}
           variant={INPUT_FIELD_VARIANTS.OUTLINED}
           required
-          // error={error.confirmPassword} todo: add validation on backend
           watchedInput={dataName.PASSWORD}
           dataTestId={TEST_ID.CONFIRM_PASSWORD_FIELD}
+          error={errors.confirmPassword}
         />
       </AuthForm>
     </FormProvider>

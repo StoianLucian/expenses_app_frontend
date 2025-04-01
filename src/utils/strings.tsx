@@ -4,7 +4,8 @@ export const TEXT = {
   SEND_EMAIL: "Send email",
   RESET: "Reset",
   LOGIN_PAGE: "Login page",
-  SEND_ACCOUNT_ACTIVATION_EMAIL: "Resend email"
+  SEND_ACCOUNT_ACTIVATION_EMAIL: "Resend email",
+  RESET_PASSWORD: "Reset Password"
 };
 
 export const LABEL = {
