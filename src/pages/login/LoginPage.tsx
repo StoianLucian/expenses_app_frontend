@@ -86,7 +86,7 @@ export default function LoginPage() {
             <FormHelperText>Not registered?</FormHelperText>
           </NavLink>
           <NavLink to={ROUTES.FORGOT_PASSWORD}>
-            <FormHelperText>Forgot password? Click here!</FormHelperText>
+            <FormHelperText>Forgot password?</FormHelperText>
           </NavLink>
         </Stack>
 
