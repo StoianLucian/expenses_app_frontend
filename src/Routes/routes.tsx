@@ -5,6 +5,7 @@ import LoginPage from "../pages/login/LoginPage";
 import NotFound from "../pages/notFound/NotFound";
 import RegisterPage from "../pages/register/RegisterPage";
 import ActivateUser from "../pages/activateUser/ActivateUser";
+import AppLayout from "../components/appLayout/AppLayout";
 
 type PathsType = {
   path: string;
@@ -45,11 +46,21 @@ export const unprotectedPaths: PathsType[] = [
     path: ROUTES.NOT_FOUND,
     component: <NotFound />,
   },
+  {
+    path: ROUTES.HOME,
+    component:
+      <AppLayout>
+        <HomePage />
+      </AppLayout>,
+  },
 ];
 
 export const protectedPaths: PathsType[] = [
-  {
-    path: ROUTES.HOME,
-    component: <HomePage />,
-  },
+  // {
+  //   path: ROUTES.HOME,
+  //   component:
+  //     <AppLayout>
+  //       <HomePage />
+  //     </AppLayout>,
+  // },// add again aftar design finish
 ];

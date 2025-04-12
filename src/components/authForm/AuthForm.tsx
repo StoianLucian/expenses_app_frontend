@@ -67,7 +67,7 @@ export default function AuthForm({
               >
                 <Stack sx={{ color: "white" }}>
                   {isPending ? (
-                    <CircularProgress data-testId={pendingCircleTestId} size="30px" color="inherit" />
+                    <CircularProgress data-testid={pendingCircleTestId} size="30px" color="inherit" />
                   ) : (
                     submitBtnText
                   )}
